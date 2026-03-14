@@ -84,6 +84,20 @@
   overflow: hidden;
 }
 
+.section__body-inner--no-clip {
+  overflow: visible;
+}
+
+.is-collapsed .section__body--no-clip {
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  height: 0;
+}
+
+.is-collapsed .section__body-inner--no-clip {
+  overflow: hidden;
+}
+
 .section__title {
   font-family: var(--font-display);
   font-size: var(--text-3xl);
