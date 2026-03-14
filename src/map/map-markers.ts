@@ -23,6 +23,7 @@ let searchMarkers: google.maps.Marker[] = [];
 let lastPosition: google.maps.LatLngLiteral | null = null;
 let activeTravelLine: google.maps.Polyline | null = null;
 let travelLineTimeout: ReturnType<typeof setTimeout> | null = null;
+const photoCache: Map<string, string | null> = new Map();
 
 function createMarkerIcon(type: string): google.maps.Symbol {
   const color = markerColors[type] || '#4a9e8e';
@@ -96,11 +97,37 @@ export function createMarkers(): void {
   });
 }
 
-function openInfoWindow(loc: Location, marker: google.maps.Marker): void {
-  if (!infoWindow) return;
-  const map = getMap();
-  if (!map) return;
+async function searchPlace(
+  name: string,
+  location: google.maps.LatLngLiteral,
+): Promise<google.maps.places.Place | null> {
+  try {
+    const { places } = await google.maps.places.Place.searchByText({
+      textQuery: name,
+      locationBias: new google.maps.Circle({
+        center: location,
+        radius: 500,
+      }),
+      fields: ['photos', 'displayName', 'formattedAddress', 'rating',
+               'reviews', 'regularOpeningHours', 'websiteURI', 'googleMapsURI',
+               'internationalPhoneNumber'],
+      maxResultCount: 1,
+    });
+    return places?.[0] ?? null;
+  } catch {
+    return null;
+  }
+}
 
+async function fetchPlacePhoto(loc: Location): Promise<string | null> {
+  const place = await searchPlace(loc.name, { lat: loc.lat, lng: loc.lng });
+  if (place?.photos && place.photos.length > 0) {
+    return place.photos[0].getURI({ maxWidth: 300 });
+  }
+  return null;
+}
+
+function buildInfoWindowNode(loc: Location, photoUrl?: string | null): HTMLDivElement {
   const regionBadge = loc.region === 'kyoto'
     ? '<span class="iw-badge iw-badge--kyoto">Kyoto</span>'
     : '<span class="iw-badge iw-badge--okinawa">Okinawa</span>';
@@ -109,30 +136,57 @@ function openInfoWindow(loc: Location, marker: google.maps.Marker): void {
   const rating = loc.rating ? `<span class="iw-rating">★ ${loc.rating}</span>` : '';
   const dayBadge = `<span class="iw-day">Day ${loc.day}</span>`;
 
-  infoWindow.setContent(`
-    <div class="info-window">
-      <h3 class="iw-name">${loc.name}</h3>
-      ${loc.nameJp ? `<span class="iw-name-jp">${loc.nameJp}</span>` : ''}
-      <div class="iw-meta">
-        ${typeBadge} ${rating} ${dayBadge} ${regionBadge}
-      </div>
-      <p class="iw-desc">${loc.description}</p>
-      ${loc.placeId ? `<button class="iw-more-btn" data-place-id="${loc.placeId}" data-location-id="${loc.id}">More info</button>` : ''}
+  const showPlaceholder = photoUrl === undefined;
+  const photoHTML = photoUrl
+    ? `<img src="${photoUrl}" alt="${loc.name}" class="iw-photo" />`
+    : showPlaceholder
+      ? '<div class="iw-photo-placeholder"></div>'
+      : '';
+
+  const container = document.createElement('div');
+  container.className = 'info-window';
+  container.innerHTML = `
+    ${photoHTML}
+    <h3 class="iw-name">${loc.name}</h3>
+    ${loc.nameJp ? `<span class="iw-name-jp">${loc.nameJp}</span>` : ''}
+    <div class="iw-meta">
+      ${typeBadge} ${rating} ${dayBadge} ${regionBadge}
     </div>
-  `);
+    <p class="iw-desc">${loc.description}</p>
+    <button class="iw-more-btn" data-location-id="${loc.id}">More info</button>
+  `;
 
-  infoWindow.open(map, marker);
-
-  // Bind "More info" button after content is set
-  google.maps.event.addListenerOnce(infoWindow, 'domready', () => {
-    const btn = document.querySelector('.iw-more-btn');
-    if (btn) {
-      btn.addEventListener('click', () => {
-        const placeId = (btn as HTMLElement).dataset.placeId!;
-        fetchPlaceDetails(placeId);
-      });
+  // Event delegation — handles button clicks even after DOM updates
+  container.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest('.iw-more-btn') as HTMLElement | null;
+    if (btn?.dataset.locationId) {
+      const clickedLoc = locations.find((l) => l.id === btn.dataset.locationId);
+      if (clickedLoc) fetchPlaceDetails(clickedLoc);
     }
   });
+
+  return container;
+}
+
+function openInfoWindow(loc: Location, marker: google.maps.Marker): void {
+  if (!infoWindow) return;
+  const map = getMap();
+  if (!map) return;
+
+  const cached = photoCache.get(loc.id);
+
+  infoWindow.setContent(buildInfoWindowNode(loc, cached !== undefined ? cached : undefined));
+  infoWindow.open(map, marker);
+
+  // Fetch photo if not cached
+  if (cached === undefined) {
+    fetchPlacePhoto(loc).then((url) => {
+      photoCache.set(loc.id, url);
+      if (infoWindow) {
+        infoWindow.setContent(buildInfoWindowNode(loc, url));
+      }
+    });
+  }
 }
 
 function highlightActivity(locationId: string): void {
@@ -264,66 +318,49 @@ export function showAllMarkers(): void {
   }
 }
 
-function fetchPlaceDetails(placeId: string): void {
-  const service = getPlacesService();
-  if (!service) return;
-
+async function fetchPlaceDetails(loc: Location): Promise<void> {
   const panel = document.getElementById('place-detail-panel');
   if (!panel) return;
 
   panel.style.display = 'block';
   panel.innerHTML = '<div class="place-loading">Loading details...</div>';
 
-  service.getDetails(
-    {
-      placeId,
-      fields: [
-        'name',
-        'formatted_address',
-        'formatted_phone_number',
-        'opening_hours',
-        'rating',
-        'reviews',
-        'photos',
-        'website',
-        'url',
-      ],
-    },
-    (place, status) => {
-      if (status !== google.maps.places.PlacesServiceStatus.OK || !place) {
-        panel.innerHTML = '<p class="place-error">Could not load place details.</p>';
-        return;
-      }
+  try {
+    const place = await searchPlace(loc.name, { lat: loc.lat, lng: loc.lng });
+    if (!place) throw new Error('Place not found');
 
-      const photo = place.photos?.[0]?.getUrl({ maxWidth: 400, maxHeight: 200 });
-      const hours = place.opening_hours?.weekday_text?.join('<br>') || '';
-      const review = place.reviews?.[0];
+    const photo = place.photos?.[0]?.getURI({ maxWidth: 400 });
+    const hours = place.regularOpeningHours?.weekdayDescriptions?.join('<br>') || '';
+    const review = place.reviews?.[0];
+    const name = place.displayName ?? '';
 
-      panel.innerHTML = `
-        <button class="place-detail-close" aria-label="Close">&times;</button>
-        ${photo ? `<img src="${photo}" alt="${place.name}" class="place-photo" />` : ''}
-        <h3 class="place-name">${place.name}</h3>
-        ${place.rating ? `<div class="place-rating">★ ${place.rating}</div>` : ''}
-        ${place.formatted_address ? `<p class="place-address">${place.formatted_address}</p>` : ''}
-        ${place.formatted_phone_number ? `<p class="place-phone">📞 ${place.formatted_phone_number}</p>` : ''}
-        ${hours ? `<div class="place-hours"><strong>Hours:</strong><br>${hours}</div>` : ''}
-        ${review ? `
-          <div class="place-review">
-            <p class="place-review-text">"${review.text?.slice(0, 200)}${(review.text?.length || 0) > 200 ? '...' : ''}"</p>
-            <span class="place-review-author">— ${review.author_name}</span>
-          </div>
-        ` : ''}
-        <div class="place-links">
-          ${place.website ? `<a href="${place.website}" target="_blank" rel="noopener" class="place-link">Website</a>` : ''}
-          ${place.url ? `<a href="${place.url}" target="_blank" rel="noopener" class="place-link">Google Maps</a>` : ''}
+    panel.innerHTML = `
+      <button class="place-detail-close" aria-label="Close">&times;</button>
+      ${photo ? `<img src="${photo}" alt="${name}" class="place-photo" />` : ''}
+      <h3 class="place-name">${name}</h3>
+      ${place.rating ? `<div class="place-rating">★ ${place.rating}</div>` : ''}
+      ${place.formattedAddress ? `<p class="place-address">${place.formattedAddress}</p>` : ''}
+      ${place.internationalPhoneNumber ? `<p class="place-phone">📞 ${place.internationalPhoneNumber}</p>` : ''}
+      ${hours ? `<div class="place-hours"><strong>Hours:</strong><br>${hours}</div>` : ''}
+      ${review ? `
+        <div class="place-review">
+          <p class="place-review-text">"${review.text?.toString().slice(0, 200)}${(review.text?.toString().length || 0) > 200 ? '...' : ''}"</p>
+          <span class="place-review-author">— ${review.authorAttribution?.displayName ?? ''}</span>
         </div>
-      `;
+      ` : ''}
+      <div class="place-links">
+        ${place.websiteURI ? `<a href="${place.websiteURI}" target="_blank" rel="noopener" class="place-link">Website</a>` : ''}
+        ${place.googleMapsURI ? `<a href="${place.googleMapsURI}" target="_blank" rel="noopener" class="place-link">Google Maps</a>` : ''}
+      </div>
+    `;
 
-      panel.querySelector('.place-detail-close')?.addEventListener('click', () => {
-        panel.style.display = 'none';
-      });
-    }
-  );
+    panel.querySelector('.place-detail-close')?.addEventListener('click', () => {
+      panel.style.display = 'none';
+    });
+  } catch (e) {
+    console.warn('[places] fetchPlaceDetails failed:', e);
+    panel.innerHTML = '<p class="place-error">Could not load place details.</p>';
+  }
 }
 
 export function searchNearby(query: string): void {
