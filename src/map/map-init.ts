@@ -1,4 +1,5 @@
 import { Loader } from '@googlemaps/js-api-loader';
+import { smoothFlyTo } from './map-fly-to';
 
 let map: google.maps.Map | null = null;
 let placesService: google.maps.places.PlacesService | null = null;
@@ -100,6 +101,6 @@ export function getPlacesService(): google.maps.places.PlacesService | null {
 export function panToRegion(region: 'kyoto' | 'okinawa'): void {
   if (!map) return;
   const center = region === 'kyoto' ? KYOTO_CENTER : OKINAWA_CENTER;
-  map.panTo(center);
-  map.setZoom(region === 'kyoto' ? 13 : 11);
+  const finalZoom = region === 'kyoto' ? 13 : 11;
+  smoothFlyTo(map, center, finalZoom);
 }

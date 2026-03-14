@@ -1,5 +1,7 @@
 import { locations, type Location } from '../data/locations';
 import { getMap, getPlacesService } from './map-init';
+import { MarkerClusterer } from '@googlemaps/markerclusterer';
+import { smoothFlyTo } from './map-fly-to';
 
 const markerColors: Record<string, string> = {
   temple: '#c85a4a',
@@ -15,8 +17,12 @@ const markerColors: Record<string, string> = {
 };
 
 let markers: Map<string, google.maps.Marker> = new Map();
+let clusterer: MarkerClusterer | null = null;
 let infoWindow: google.maps.InfoWindow | null = null;
 let searchMarkers: google.maps.Marker[] = [];
+let lastPosition: google.maps.LatLngLiteral | null = null;
+let activeTravelLine: google.maps.Polyline | null = null;
+let travelLineTimeout: ReturnType<typeof setTimeout> | null = null;
 
 function createMarkerIcon(type: string): google.maps.Symbol {
   const color = markerColors[type] || '#4a9e8e';
@@ -31,19 +37,46 @@ function createMarkerIcon(type: string): google.maps.Symbol {
   };
 }
 
+// Custom cluster renderer to match the app's warm aesthetic
+function clusterRenderer(
+  { count, position }: { count: number; position: google.maps.LatLng },
+  _stats: unknown,
+) {
+  const size = count < 10 ? 40 : count < 20 ? 48 : 56;
+  const svg = `
+    <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="${size / 2}" cy="${size / 2}" r="${size / 2}" fill="#c85a4a" opacity="0.85"/>
+      <circle cx="${size / 2}" cy="${size / 2}" r="${size / 2 - 4}" fill="#c85a4a" opacity="1"/>
+      <text x="${size / 2}" y="${size / 2}" text-anchor="middle" dy="0.35em"
+            font-family="system-ui, sans-serif" font-size="14" font-weight="600" fill="white">
+        ${count}
+      </text>
+    </svg>`;
+
+  return new google.maps.Marker({
+    position,
+    icon: {
+      url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`,
+      scaledSize: new google.maps.Size(size, size),
+      anchor: new google.maps.Point(size / 2, size / 2),
+    },
+    zIndex: 1000 + count,
+  });
+}
+
 export function createMarkers(): void {
   const map = getMap();
   if (!map) return;
 
   infoWindow = new google.maps.InfoWindow();
 
+  const allMarkers: google.maps.Marker[] = [];
+
   locations.forEach((loc) => {
     const marker = new google.maps.Marker({
       position: { lat: loc.lat, lng: loc.lng },
-      map,
       title: loc.name,
       icon: createMarkerIcon(loc.type),
-      animation: google.maps.Animation.DROP,
     });
 
     marker.addListener('click', () => {
@@ -52,6 +85,14 @@ export function createMarkers(): void {
     });
 
     markers.set(loc.id, marker);
+    allMarkers.push(marker);
+  });
+
+  // Initialize marker clustering
+  clusterer = new MarkerClusterer({
+    map,
+    markers: allMarkers,
+    renderer: { render: clusterRenderer },
   });
 }
 
@@ -107,16 +148,86 @@ function highlightActivity(locationId: string): void {
   }
 }
 
+// --- Animated travel line ---
+
+function clearTravelLine(): void {
+  if (travelLineTimeout) {
+    clearTimeout(travelLineTimeout);
+    travelLineTimeout = null;
+  }
+  if (activeTravelLine) {
+    activeTravelLine.setMap(null);
+    activeTravelLine = null;
+  }
+}
+
+function drawTravelLine(
+  map: google.maps.Map,
+  from: google.maps.LatLngLiteral,
+  to: google.maps.LatLngLiteral,
+): void {
+  clearTravelLine();
+
+  activeTravelLine = new google.maps.Polyline({
+    path: [from, to],
+    geodesic: true,
+    strokeColor: '#c85a4a',
+    strokeOpacity: 0,
+    strokeWeight: 2,
+    icons: [
+      {
+        icon: {
+          path: 'M 0,-1 0,1',
+          strokeOpacity: 0.5,
+          strokeWeight: 2,
+          scale: 3,
+        },
+        offset: '0',
+        repeat: '16px',
+      },
+    ],
+    map,
+  });
+
+  // Auto-remove after 3 seconds
+  travelLineTimeout = setTimeout(() => {
+    if (activeTravelLine) {
+      activeTravelLine.setMap(null);
+      activeTravelLine = null;
+    }
+  }, 3000);
+}
+
 export function panToLocation(locationId: string): void {
   const map = getMap();
   const marker = markers.get(locationId);
   if (!map || !marker) return;
 
-  map.panTo(marker.getPosition()!);
-  map.setZoom(16);
+  const target = marker.getPosition()!;
+  const targetLiteral = { lat: target.lat(), lng: target.lng() };
+
+  // Draw travel line from previous location
+  if (lastPosition) {
+    drawTravelLine(map, lastPosition, targetLiteral);
+  }
+
+  // Smooth fly-to animation
+  smoothFlyTo(map, targetLiteral, 16);
+
+  lastPosition = targetLiteral;
 
   const loc = locations.find((l) => l.id === locationId);
-  if (loc) openInfoWindow(loc, marker);
+  if (loc) {
+    // Open info window after the animation completes
+    const openAfterIdle = () => {
+      google.maps.event.addListenerOnce(map, 'idle', () => {
+        openInfoWindow(loc, marker);
+      });
+    };
+    // Listen for the final idle (zoom-in step)
+    // Use a short delay to let the fly-to chain start
+    setTimeout(openAfterIdle, 100);
+  }
 }
 
 export function filterMarkersByDay(day: number): void {
@@ -136,6 +247,11 @@ export function filterMarkersByDay(day: number): void {
     }
   });
 
+  // Re-render clusters after visibility change
+  if (clusterer) {
+    clusterer.render();
+  }
+
   if (hasVisible) {
     map.fitBounds(bounds, { top: 60, right: 60, bottom: 60, left: 60 });
   }
@@ -143,6 +259,9 @@ export function filterMarkersByDay(day: number): void {
 
 export function showAllMarkers(): void {
   markers.forEach((marker) => marker.setVisible(true));
+  if (clusterer) {
+    clusterer.render();
+  }
 }
 
 function fetchPlaceDetails(placeId: string): void {
