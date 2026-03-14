@@ -28,14 +28,7 @@ async function loadPhotosForCards(container: HTMLElement) {
     try {
       const url = await fetchPlacePhotoUrl(loc.name, { lat: loc.lat, lng: loc.lng });
       if (url && photoEl.isConnected) {
-        const img = document.createElement('img');
-        img.src = url;
-        img.alt = loc.name;
-        img.loading = 'lazy';
-        img.onload = () => {
-          photoEl.innerHTML = '';
-          photoEl.appendChild(img);
-        };
+        photoEl.innerHTML = `<img src="${url}" alt="${loc.name}" loading="lazy" />`;
       } else if (photoEl.isConnected) {
         photoEl.remove();
       }
