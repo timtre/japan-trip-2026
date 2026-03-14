@@ -33,6 +33,7 @@ export function renderChecklist(
               <span class="checklist__label">${item.text}</span>
               <span style="display: block; font-size: var(--text-xs); color: var(--color-text-muted); margin-top: 2px;">
                 ${item.details} · ${item.timeframe}
+                ${item.url ? `· <a href="${item.url}" target="_blank" rel="noopener" class="checklist__link" onclick="event.stopPropagation()">Book &rarr;</a>` : ''}
               </span>
             </div>
           </label>

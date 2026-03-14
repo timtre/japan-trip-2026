@@ -17,6 +17,7 @@ export interface ChecklistItem {
   text: string;
   details: string;
   timeframe: string;
+  url?: string;
 }
 
 export const transportInfo: TransportItem[] = [
@@ -180,90 +181,105 @@ export const checklistItems: ChecklistItem[] = [
     text: 'Book flight Seoul \u2192 Osaka KIX',
     details: 'Peach, Jeju Air, T\'way, or Jin Air. Check Skyscanner.',
     timeframe: '6\u20138 weeks before',
+    url: 'https://www.skyscanner.net/transport/flights/sel/kix/',
   },
   {
     id: 'flights-kix-naha',
     text: 'Book flight KIX \u2192 Naha',
     details: 'Peach or Jetstar. Afternoon flight on Apr 23.',
     timeframe: '6\u20138 weeks before',
+    url: 'https://www.skyscanner.net/transport/flights/kix/oka/',
   },
   {
     id: 'flights-naha-seoul',
     text: 'Book flight Naha \u2192 Seoul',
     details: 'Afternoon departure on Apr 27.',
     timeframe: '6\u20138 weeks before',
+    url: 'https://www.skyscanner.net/transport/flights/oka/sel/',
   },
   {
     id: 'accommodation-kyoto',
     text: 'Book Kyoto accommodation',
     details: 'Try a traditional Machiya! 4 nights (Apr 20\u201323).',
     timeframe: '4\u20136 weeks before',
+    url: 'https://www.booking.com/searchresults.html?ss=Kyoto',
   },
   {
     id: 'accommodation-okinawa',
     text: 'Book Okinawa accommodation',
     details: 'Naha area for Days 5\u20136, consider north for Day 7. 4 nights (Apr 24\u201327).',
     timeframe: '4\u20136 weeks before',
+    url: 'https://www.booking.com/searchresults.html?ss=Naha%2C+Okinawa',
   },
   {
     id: 'reserve-shigetsu',
     text: 'Reserve Shigetsu (Tenryu-ji)',
     details: 'Book Hana course. Lunch only, closed Thu.',
     timeframe: '2\u20134 weeks before',
+    url: 'https://www.tenryuji.com/shigetsu/en/',
   },
   {
     id: 'reserve-uzu',
     text: 'Reserve Vegan Ramen UZU',
     details: 'Michelin-starred, limited seats. Reservation required.',
     timeframe: '2\u20134 weeks before',
+    url: 'https://www.tablecheck.com/en/shops/uzu-kyoto/reserve',
   },
   {
     id: 'reserve-awomb',
     text: 'Reserve AWOMB Nishikiyamachi',
     details: 'Reservation in Japanese required. From 6 PM.',
     timeframe: '2\u20134 weeks before',
+    url: 'https://www.awomb.com/',
   },
   {
     id: 'reserve-little-heaven',
     text: 'Reserve Little Heaven',
     details: 'Reserve by email for vegan sushi course.',
     timeframe: '2\u20134 weeks before',
+    url: 'https://www.instagram.com/little_heaven_kyoto/',
   },
   {
     id: 'zamami-ferry',
     text: 'Book Zamami ferry tickets',
     details: 'Round trip from Tomari Port. Sells out on weekends!',
     timeframe: '1\u20132 weeks before',
+    url: 'https://www.vill.zamami.okinawa.jp/ship/en/',
   },
   {
     id: 'car-rental',
     text: 'Book rental car for Day 7',
     details: 'Needed for North Okinawa roadtrip. International driving permit required.',
     timeframe: '1\u20132 weeks before',
+    url: 'https://www.tocoo.jp/en/',
   },
   {
     id: 'reserve-towzen',
     text: 'Reserve Towzen (Shimogamo)',
     details: 'Reserve via Line messaging app.',
     timeframe: '1 week before',
+    url: 'https://www.instagram.com/towzen_kyoto/',
   },
   {
     id: 'happycow-app',
     text: 'Download HappyCow app',
     details: 'Best app for finding vegan restaurants worldwide.',
     timeframe: 'Before departure',
+    url: 'https://www.happycow.net/mobile',
   },
   {
     id: 'vegan-card',
     text: 'Prepare vegan allergy card in Japanese',
     details: 'Print or save on phone. Explain dietary needs in Japanese.',
     timeframe: 'Before departure',
+    url: 'https://www.justhungry.com/japan-dining-out-cards',
   },
   {
     id: 'esim',
     text: 'Get eSIM for Japan',
     details: 'Ubigi, Airalo, or similar. Data-only eSIM works great.',
     timeframe: 'Before departure',
+    url: 'https://www.airalo.com/japan',
   },
 ];
 
