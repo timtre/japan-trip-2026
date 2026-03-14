@@ -5,6 +5,7 @@ export interface Activity {
   description: string;
   isAlternative: boolean;
   tip?: string;
+  transportToNext?: 'walk' | 'bus' | 'train' | 'car' | 'ferry' | 'flight' | 'monorail';
 }
 
 export interface TripDay {
@@ -32,6 +33,7 @@ export const tripDays: TripDay[] = [
         description:
           'Beautiful canal walkway \u2013 in April often still last cherry blossoms.',
         isAlternative: false,
+        transportToNext: 'walk',
       },
       {
         time: '17:00',
@@ -40,6 +42,7 @@ export const tripDays: TripDay[] = [
         description:
           'The further north, the quieter and more local. Perfect for an evening stroll.',
         isAlternative: false,
+        transportToNext: 'walk',
       },
       {
         time: '18:00',
@@ -48,6 +51,7 @@ export const tripDays: TripDay[] = [
         description:
           'Vegan dumplings & chocolate cake, right in Gion. Mon until 7 PM \u2013 arrive early!',
         isAlternative: false,
+        transportToNext: 'walk',
       },
       {
         time: '18:00',
@@ -82,6 +86,7 @@ export const tripDays: TripDay[] = [
         locationId: 'kiyomizu-dera',
         description: 'Wooden terrace above the city.',
         isAlternative: false,
+        transportToNext: 'walk',
       },
       {
         time: '10:30',
@@ -89,6 +94,7 @@ export const tripDays: TripDay[] = [
         locationId: 'ninenzaka',
         description: 'Charming lanes downhill from the temple.',
         isAlternative: false,
+        transportToNext: 'bus',
       },
       {
         time: '11:30',
@@ -97,6 +103,7 @@ export const tripDays: TripDay[] = [
         description:
           "Locals say it's Kyoto's most beautiful garden. Tea included. Closed Wed!",
         isAlternative: false,
+        transportToNext: 'bus',
       },
       {
         time: '13:00',
@@ -104,6 +111,7 @@ export const tripDays: TripDay[] = [
         locationId: 'vog-kyoto',
         description: 'Vegan Butter Keema Masala & Mango Lassi.',
         isAlternative: false,
+        transportToNext: 'bus',
       },
       {
         time: '15:00',
@@ -111,6 +119,7 @@ export const tripDays: TripDay[] = [
         locationId: 'kinkaku-ji',
         description: 'If only one temple, make it this one.',
         isAlternative: false,
+        transportToNext: 'bus',
       },
       {
         time: '16:30',
@@ -118,6 +127,7 @@ export const tripDays: TripDay[] = [
         locationId: 'story-coffee',
         description: 'One of the best espressos in Kyoto. Has oat milk!',
         isAlternative: false,
+        transportToNext: 'walk',
       },
       {
         time: '17:30',
@@ -125,6 +135,7 @@ export const tripDays: TripDay[] = [
         locationId: 'sanjo-shopping-street',
         description: 'Local alternative to touristy Nishiki Market.',
         isAlternative: false,
+        transportToNext: 'walk',
       },
       {
         time: '19:00',
@@ -157,6 +168,7 @@ export const tripDays: TripDay[] = [
         locationId: 'arashiyama-bamboo-grove',
         description: 'Tourist-heavy but still impressive.',
         isAlternative: false,
+        transportToNext: 'walk',
       },
       {
         time: '10:15',
@@ -164,6 +176,7 @@ export const tripDays: TripDay[] = [
         locationId: 'okochi-sanso-garden',
         description: 'Hidden gem! 1,000\u00A5 incl. matcha.',
         isAlternative: false,
+        transportToNext: 'walk',
       },
       {
         time: '11:00',
@@ -171,6 +184,7 @@ export const tripDays: TripDay[] = [
         locationId: 'excafe-arashiyama',
         description: 'Grill dango at your table + matcha.',
         isAlternative: false,
+        transportToNext: 'walk',
       },
       {
         time: '11:30',
@@ -178,6 +192,7 @@ export const tripDays: TripDay[] = [
         locationId: 'shigetsu',
         description: 'Shojin Ryori with zen garden view. Book Hana course!',
         isAlternative: false,
+        transportToNext: 'train',
       },
       {
         time: '14:30',
@@ -186,6 +201,7 @@ export const tripDays: TripDay[] = [
         description: 'Rotenburo with mountain views. 2,500\u00A5.',
         isAlternative: false,
         tip: 'Take the Eizan Line from Demachiyanagi to Kurama Onsen (~30 min).',
+        transportToNext: 'train',
       },
       {
         time: '19:30',
@@ -218,6 +234,7 @@ export const tripDays: TripDay[] = [
         locationId: 'fushimi-inari-taisha',
         description: 'Thousands of red torii gates.',
         isAlternative: false,
+        transportToNext: 'walk',
       },
       {
         time: '12:30',
@@ -225,6 +242,7 @@ export const tripDays: TripDay[] = [
         locationId: 'fushimi-sake-district',
         description: 'Sake tasting at historic breweries.',
         isAlternative: false,
+        transportToNext: 'train',
       },
       {
         time: '13:30',
@@ -233,6 +251,7 @@ export const tripDays: TripDay[] = [
         description:
           'Vegan gimbap & matcha pudding. Right at the station!',
         isAlternative: false,
+        transportToNext: 'train',
       },
       {
         time: '13:30',
@@ -265,6 +284,7 @@ export const tripDays: TripDay[] = [
         locationId: 'shuri-castle',
         description: 'Seat of the Ryukyu Kingdom.',
         isAlternative: false,
+        transportToNext: 'monorail',
       },
       {
         time: '12:30',
@@ -272,6 +292,7 @@ export const tripDays: TripDay[] = [
         locationId: 'natural-food-mana',
         description: 'Rotating set lunch ~10 dishes.',
         isAlternative: false,
+        transportToNext: 'walk',
       },
       {
         time: '15:00',
@@ -279,6 +300,7 @@ export const tripDays: TripDay[] = [
         locationId: 'kokusai-dori',
         description: 'Try jimami dofu & shima dofu.',
         isAlternative: false,
+        transportToNext: 'walk',
       },
       {
         time: '18:00',
@@ -304,6 +326,7 @@ export const tripDays: TripDay[] = [
         locationId: 'buuluu-buuluu',
         description: 'Avocado toast & flat white. Cash only!',
         isAlternative: false,
+        transportToNext: 'walk',
       },
       {
         time: '10:00',
@@ -311,6 +334,7 @@ export const tripDays: TripDay[] = [
         locationId: 'tomari-port',
         description: 'High-speed ferry to Zamami Island.',
         isAlternative: false,
+        transportToNext: 'ferry',
       },
       {
         time: '11:00',
@@ -318,6 +342,7 @@ export const tripDays: TripDay[] = [
         locationId: 'furuzamami-beach',
         description: 'Snorkel at Furuzamami Beach until 16:00.',
         isAlternative: false,
+        transportToNext: 'ferry',
       },
       {
         time: '16:00',
@@ -325,6 +350,7 @@ export const tripDays: TripDay[] = [
         locationId: 'tomari-port',
         description: 'Return ferry from Zamami.',
         isAlternative: false,
+        transportToNext: 'walk',
       },
       {
         time: '18:30',
@@ -350,6 +376,7 @@ export const tripDays: TripDay[] = [
         locationId: 'cape-manzamo',
         description: 'Dramatic cliffs with elephant trunk rock.',
         isAlternative: false,
+        transportToNext: 'car',
       },
       {
         time: '11:30',
@@ -357,6 +384,7 @@ export const tripDays: TripDay[] = [
         locationId: 'sesoko-beach',
         description: 'Crystal clear water, snorkeling. 1,000\u00A5 parking.',
         isAlternative: false,
+        transportToNext: 'car',
       },
       {
         time: '11:30',
@@ -371,6 +399,7 @@ export const tripDays: TripDay[] = [
         locationId: 'gajimaru',
         description: 'Vegan ramen, gyoza & gelato. Closed Fri.',
         isAlternative: false,
+        transportToNext: 'car',
       },
       {
         time: '15:00',
@@ -378,6 +407,7 @@ export const tripDays: TripDay[] = [
         locationId: 'hiji-falls',
         description: 'Subtropical rainforest hike ~40 min each way.',
         isAlternative: false,
+        transportToNext: 'car',
       },
       {
         time: '18:30',
@@ -403,6 +433,7 @@ export const tripDays: TripDay[] = [
         locationId: 'naminoue-beach',
         description: 'Last sun and sea.',
         isAlternative: false,
+        transportToNext: 'walk',
       },
       {
         time: '12:00',
@@ -410,6 +441,7 @@ export const tripDays: TripDay[] = [
         locationId: 'kokusai-dori',
         description: 'Jimami dofu, beni-imo tart, mozuku seaweed.',
         isAlternative: false,
+        transportToNext: 'monorail',
       },
       {
         time: '14:00',

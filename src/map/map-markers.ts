@@ -1,4 +1,5 @@
 import { locations, type Location } from '../data/locations';
+import { tripDays } from '../data/trip-data';
 import { getMap, getPlacesService } from './map-init';
 import { MarkerClusterer } from '@googlemaps/markerclusterer';
 import { smoothFlyTo } from './map-fly-to';
@@ -20,6 +21,8 @@ let markers: Map<string, google.maps.Marker> = new Map();
 let clusterer: MarkerClusterer | null = null;
 let infoWindow: google.maps.InfoWindow | null = null;
 let searchMarkers: google.maps.Marker[] = [];
+let routeLines: google.maps.Polyline[] = [];
+let transportMarkers: google.maps.Marker[] = [];
 let lastPosition: google.maps.LatLngLiteral | null = null;
 let activeTravelLine: google.maps.Polyline | null = null;
 let travelLineTimeout: ReturnType<typeof setTimeout> | null = null;
@@ -229,6 +232,20 @@ function highlightActivity(locationId: string): void {
   }
 }
 
+// --- Route overlays for day filtering ---
+
+const transportEmoji: Record<string, string> = {
+  walk: '🚶', bus: '🚌', train: '🚃', car: '🚗',
+  ferry: '⛴', flight: '✈️', monorail: '🚝',
+};
+
+function clearRouteOverlays(): void {
+  for (const line of routeLines) line.setMap(null);
+  routeLines = [];
+  for (const m of transportMarkers) m.setMap(null);
+  transportMarkers = [];
+}
+
 // --- Animated travel line ---
 
 function clearTravelLine(): void {
@@ -308,6 +325,18 @@ export function filterMarkersByDay(day: number): void {
   const map = getMap();
   if (!map) return;
 
+  // Build ordering from itinerary (non-alternative activities only)
+  const dayData = tripDays.find(d => d.day === day);
+  const activityOrder = new Map<string, number>();
+  if (dayData) {
+    let index = 1;
+    for (const activity of dayData.activities) {
+      if (!activity.isAlternative) {
+        activityOrder.set(activity.locationId, index++);
+      }
+    }
+  }
+
   const bounds = new google.maps.LatLngBounds();
   let hasVisible = false;
 
@@ -315,15 +344,76 @@ export function filterMarkersByDay(day: number): void {
     const loc = locations.find((l) => l.id === id);
     const visible = !loc || loc.day === day;
     marker.setVisible(visible);
+
+    // Set numbered label if this location is in the day's itinerary
+    const order = activityOrder.get(id);
+    marker.setLabel(order ? { text: String(order), color: '#fff', fontWeight: 'bold' } : null);
+
     if (visible && loc) {
       bounds.extend({ lat: loc.lat, lng: loc.lng });
       hasVisible = true;
     }
   });
 
-  // Re-render clusters after visibility change
   if (clusterer) {
     clusterer.render();
+  }
+
+  // Draw route lines between consecutive stops
+  clearRouteOverlays();
+  if (dayData) {
+    const orderedActivities = dayData.activities.filter(a => !a.isAlternative);
+    for (let i = 0; i < orderedActivities.length - 1; i++) {
+      const curr = orderedActivities[i];
+      const next = orderedActivities[i + 1];
+      // Skip if same location
+      if (curr.locationId === next.locationId) continue;
+      const fromMarker = markers.get(curr.locationId);
+      const toMarker = markers.get(next.locationId);
+      if (!fromMarker || !toMarker) continue;
+      const fromPos = fromMarker.getPosition()!;
+      const toPos = toMarker.getPosition()!;
+      const from = { lat: fromPos.lat(), lng: fromPos.lng() };
+      const to = { lat: toPos.lat(), lng: toPos.lng() };
+
+      // Dashed polyline
+      const line = new google.maps.Polyline({
+        path: [from, to],
+        geodesic: true,
+        strokeColor: '#94a3b8',
+        strokeOpacity: 0,
+        strokeWeight: 2,
+        icons: [{
+          icon: { path: 'M 0,-1 0,1', strokeOpacity: 0.6, strokeWeight: 2, scale: 3 },
+          offset: '0',
+          repeat: '16px',
+        }],
+        map,
+      });
+      routeLines.push(line);
+
+      // Transport icon at midpoint
+      if (curr.transportToNext) {
+        const mid = { lat: (from.lat + to.lat) / 2, lng: (from.lng + to.lng) / 2 };
+        const emoji = transportEmoji[curr.transportToNext] || '';
+        const tm = new google.maps.Marker({
+          position: mid,
+          map,
+          icon: {
+            path: google.maps.SymbolPath.CIRCLE,
+            scale: 14,
+            fillColor: '#ffffff',
+            fillOpacity: 1,
+            strokeColor: '#94a3b8',
+            strokeWeight: 1.5,
+          },
+          label: { text: emoji, fontSize: '14px' },
+          zIndex: 500,
+          clickable: false,
+        });
+        transportMarkers.push(tm);
+      }
+    }
   }
 
   if (hasVisible) {
@@ -332,7 +422,11 @@ export function filterMarkersByDay(day: number): void {
 }
 
 export function showAllMarkers(): void {
-  markers.forEach((marker) => marker.setVisible(true));
+  clearRouteOverlays();
+  markers.forEach((marker) => {
+    marker.setVisible(true);
+    marker.setLabel(null);
+  });
   if (clusterer) {
     clusterer.render();
   }
