@@ -234,10 +234,15 @@
 }
 
 /* --- Must Book Badge --- */
+.restaurant-card__badges {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-xs);
+  flex-shrink: 0;
+}
+
 .restaurant-card__must-book {
-  position: absolute;
-  top: var(--space-md);
-  right: var(--space-md);
   display: inline-flex;
   align-items: center;
   gap: var(--space-xs);
