@@ -82,7 +82,7 @@ export async function initMap(containerId: string): Promise<google.maps.Map | nu
     streetViewControl: false,
     fullscreenControl: true,
     zoomControl: true,
-    gestureHandling: 'cooperative',
+    gestureHandling: 'greedy',
   });
 
   placesService = new google.maps.places.PlacesService(map);
