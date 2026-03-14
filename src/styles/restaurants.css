@@ -135,9 +135,14 @@
   white-space: nowrap;
 }
 
-.restaurant-card__category--sushi {
-  background: var(--color-okinawa-subtle);
-  color: var(--color-okinawa-dark);
+.restaurant-card__category--shojin {
+  background: rgba(16, 185, 129, 0.1);
+  color: #047857;
+}
+
+.restaurant-card__category--modern-vegan {
+  background: rgba(59, 130, 246, 0.1);
+  color: #1d4ed8;
 }
 
 .restaurant-card__category--ramen {
@@ -145,23 +150,18 @@
   color: var(--color-kyoto-dark);
 }
 
-.restaurant-card__category--kaiseki {
-  background: var(--color-accent-subtle);
-  color: var(--color-accent-dark);
-}
-
-.restaurant-card__category--izakaya {
-  background: var(--color-primary-subtle);
-  color: var(--color-primary-dark);
+.restaurant-card__category--sushi {
+  background: var(--color-okinawa-subtle);
+  color: var(--color-okinawa-dark);
 }
 
 .restaurant-card__category--cafe {
-  background: rgba(139, 92, 246, 0.08);
+  background: rgba(139, 92, 246, 0.1);
   color: #7c3aed;
 }
 
-.restaurant-card__category--street-food {
-  background: rgba(245, 158, 11, 0.08);
+.restaurant-card__category--okinawa {
+  background: rgba(245, 158, 11, 0.1);
   color: #b45309;
 }
 
@@ -236,8 +236,8 @@
 /* --- Must Book Badge --- */
 .restaurant-card__badges {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  flex-direction: row;
+  align-items: center;
   gap: var(--space-xs);
   flex-shrink: 0;
 }
