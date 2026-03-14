@@ -134,14 +134,29 @@ export async function fetchPlacePhotoUrl(
 ): Promise<string | null> {
   const cacheKey = `photo:${name}`;
   if (photoCache.has(cacheKey)) return photoCache.get(cacheKey) ?? null;
-  try {
-    const place = await searchPlace(name, coords);
-    const url = place?.photos?.[0]?.getURI({ maxWidth }) ?? null;
-    photoCache.set(cacheKey, url);
-    return url;
-  } catch {
-    return null;
-  }
+
+  const service = getPlacesService();
+  if (!service) return null;
+
+  return new Promise((resolve) => {
+    service.findPlaceFromQuery(
+      {
+        query: `${name} ${coords.lat.toFixed(2)},${coords.lng.toFixed(2)}`,
+        fields: ['photos'],
+        locationBias: new google.maps.LatLng(coords.lat, coords.lng),
+      },
+      (results, status) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK && results?.[0]?.photos?.length) {
+          const url = results[0].photos![0].getUrl({ maxWidth });
+          photoCache.set(cacheKey, url);
+          resolve(url);
+        } else {
+          photoCache.set(cacheKey, null);
+          resolve(null);
+        }
+      },
+    );
+  });
 }
 
 function buildInfoWindowNode(loc: Location, photoUrl?: string | null): HTMLDivElement {

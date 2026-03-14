@@ -16,15 +16,18 @@ const categories = [
 const locationMap = new Map(locations.map((l) => [l.id, l]));
 let photosEnabled = false;
 
-function loadPhotosForCards(container: HTMLElement) {
+async function loadPhotosForCards(container: HTMLElement) {
   if (!photosEnabled) return;
-  container.querySelectorAll<HTMLElement>('.restaurant-card__photo[data-photo-for]').forEach((photoEl) => {
+  const photoEls = [...container.querySelectorAll<HTMLElement>('.restaurant-card__photo[data-photo-for]')];
+
+  for (const photoEl of photoEls) {
     const locationId = photoEl.dataset.photoFor!;
     const loc = locationMap.get(locationId);
-    if (!loc) return;
+    if (!loc) continue;
 
-    fetchPlacePhotoUrl(loc.name, { lat: loc.lat, lng: loc.lng }).then((url) => {
-      if (url) {
+    try {
+      const url = await fetchPlacePhotoUrl(loc.name, { lat: loc.lat, lng: loc.lng });
+      if (url && photoEl.isConnected) {
         const img = document.createElement('img');
         img.src = url;
         img.alt = loc.name;
@@ -33,11 +36,13 @@ function loadPhotosForCards(container: HTMLElement) {
           photoEl.innerHTML = '';
           photoEl.appendChild(img);
         };
-      } else {
+      } else if (photoEl.isConnected) {
         photoEl.remove();
       }
-    });
-  });
+    } catch {
+      // skip failed photo
+    }
+  }
 }
 
 export function renderRestaurantGuide(
