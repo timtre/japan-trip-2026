@@ -252,7 +252,7 @@ function drawTravelLine(
   }, 3000);
 }
 
-export function panToLocation(locationId: string): void {
+export async function panToLocation(locationId: string): Promise<void> {
   const map = getMap();
   const marker = markers.get(locationId);
   if (!map || !marker) return;
@@ -265,22 +265,15 @@ export function panToLocation(locationId: string): void {
     drawTravelLine(map, lastPosition, targetLiteral);
   }
 
-  // Smooth fly-to animation
-  smoothFlyTo(map, targetLiteral, 16);
-
   lastPosition = targetLiteral;
 
+  // Smooth fly-to animation — wait for it to fully complete
+  await smoothFlyTo(map, targetLiteral, 16);
+
+  // Open info window only after the map has settled on the target
   const loc = locations.find((l) => l.id === locationId);
   if (loc) {
-    // Open info window after the animation completes
-    const openAfterIdle = () => {
-      google.maps.event.addListenerOnce(map, 'idle', () => {
-        openInfoWindow(loc, marker);
-      });
-    };
-    // Listen for the final idle (zoom-in step)
-    // Use a short delay to let the fly-to chain start
-    setTimeout(openAfterIdle, 100);
+    openInfoWindow(loc, marker);
   }
 }
 

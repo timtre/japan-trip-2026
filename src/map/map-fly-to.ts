@@ -16,22 +16,30 @@ function distanceKm(
   return 2 * R * Math.asin(Math.sqrt(h));
 }
 
+/** Helper: wait for the map to fire 'idle' once */
+function waitForIdle(map: google.maps.Map): Promise<void> {
+  return new Promise((resolve) => {
+    google.maps.event.addListenerOnce(map, 'idle', () => resolve());
+  });
+}
+
 /**
  * Smoothly flies the map from the current view to a target location.
  * For short distances (<2 km), just pans directly.
  * For longer distances, zooms out -> pans -> zooms in.
+ * Returns a promise that resolves when the animation is complete.
  */
-export function smoothFlyTo(
+export async function smoothFlyTo(
   map: google.maps.Map,
   target: google.maps.LatLngLiteral,
   finalZoom = 16,
-): void {
+): Promise<void> {
   const currentCenter = map.getCenter();
   const currentZoom = map.getZoom() ?? 13;
 
   // If no current center, just jump
   if (!currentCenter) {
-    map.panTo(target);
+    map.setCenter(target);
     map.setZoom(finalZoom);
     return;
   }
@@ -42,9 +50,9 @@ export function smoothFlyTo(
   // Short distance: just smooth-pan directly
   if (dist < 2) {
     map.panTo(target);
-    google.maps.event.addListenerOnce(map, 'idle', () => {
-      map.setZoom(finalZoom);
-    });
+    await waitForIdle(map);
+    map.setZoom(finalZoom);
+    await waitForIdle(map);
     return;
   }
 
@@ -63,14 +71,13 @@ export function smoothFlyTo(
 
   // Step 1: Zoom out
   map.setZoom(overviewZoom);
+  await waitForIdle(map);
 
-  // Step 2: After zoom-out settles, pan to target
-  google.maps.event.addListenerOnce(map, 'idle', () => {
-    map.panTo(target);
+  // Step 2: Pan to target
+  map.panTo(target);
+  await waitForIdle(map);
 
-    // Step 3: After pan settles, zoom in
-    google.maps.event.addListenerOnce(map, 'idle', () => {
-      map.setZoom(finalZoom);
-    });
-  });
+  // Step 3: Zoom in to final level
+  map.setZoom(finalZoom);
+  await waitForIdle(map);
 }
