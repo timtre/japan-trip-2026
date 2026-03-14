@@ -51,7 +51,7 @@ export const restaurants: Restaurant[] = [
     priceRange: '\u00A5\u00A5\u00A5',
     tags: ['shojin-ryori', 'historic', 'temple', 'traditional'],
     url: 'https://maps.app.goo.gl/izusen-daitokuji-kyoto',
-    photo: 'https://images.unsplash.com/photo-1606491956689-2ea866880049?w=600&h=400&fit=crop',
+    photo: 'https://images.unsplash.com/photo-1540648639573-8c848de23f0a?w=600&h=400&fit=crop',
   },
   {
     id: 'shojin-cafe-waka',
