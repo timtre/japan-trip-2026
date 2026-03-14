@@ -10,9 +10,9 @@ export function initMapFilters(): void {
     regionJumpBtn.addEventListener('click', () => {
       currentRegion = currentRegion === 'kyoto' ? 'okinawa' : 'kyoto';
       panToRegion(currentRegion);
-      regionJumpBtn.textContent =
-        currentRegion === 'kyoto' ? 'Jump to Okinawa →' : '← Jump to Kyoto';
-      regionJumpBtn.dataset.region = currentRegion === 'kyoto' ? 'okinawa' : 'kyoto';
+      const target = currentRegion === 'kyoto' ? 'okinawa' : 'kyoto';
+      regionJumpBtn.innerHTML = `<span class="map-region-toggle__icon">📍</span> ${target.charAt(0).toUpperCase() + target.slice(1)}`;
+      regionJumpBtn.dataset.region = target;
     });
   }
 }

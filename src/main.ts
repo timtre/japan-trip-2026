@@ -16,7 +16,7 @@ import { checklistItems } from './data/practical-info';
 import { initCollapsibleSections } from './components/collapsible-sections';
 import { initActiveNavTracking } from './utils/scroll';
 import { initMap } from './map/map-init';
-import { createMarkers, panToLocation, searchNearby, filterMarkersByDay } from './map/map-markers';
+import { createMarkers, panToLocation, filterMarkersByDay } from './map/map-markers';
 import { initMapFilters } from './map/map-filters';
 
 // ─── Render sections ──────────────────────────────────────────────────────
@@ -54,18 +54,6 @@ if (mapClose && mapSidebarEl) {
   });
 }
 
-// ─── Map search ───────────────────────────────────────────────────────────
-const mapSearch = document.getElementById('map-search') as HTMLInputElement | null;
-if (mapSearch) {
-  let searchTimeout: ReturnType<typeof setTimeout>;
-  mapSearch.addEventListener('input', () => {
-    clearTimeout(searchTimeout);
-    searchTimeout = setTimeout(() => {
-      const query = mapSearch.value.trim();
-      if (query.length >= 2) searchNearby(query);
-    }, 500);
-  });
-}
 
 // ─── Google Maps ──────────────────────────────────────────────────────────
 const restaurantGrid = document.getElementById('restaurant-grid')!;
