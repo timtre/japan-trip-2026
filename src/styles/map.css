@@ -299,9 +299,28 @@
   font-size: var(--text-base);
 }
 
+/* map-toggle hidden on all viewports — map opens only via location clicks on mobile */
+
+.map-close {
+  display: none;
+}
+
 @media (max-width: 1023px) {
-  .map-toggle {
-    display: inline-flex;
+  .map-close {
+    display: block;
+    position: absolute;
+    top: var(--space-sm);
+    right: var(--space-sm);
+    z-index: 10;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    width: 36px;
+    height: 36px;
+    font-size: var(--text-xl);
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: var(--shadow-md);
   }
 }
 

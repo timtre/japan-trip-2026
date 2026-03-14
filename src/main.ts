@@ -45,14 +45,12 @@ renderChecklist(document.getElementById('preparation-content')!, checklistItems)
 renderPracticalSection(document.getElementById('practical-content')!);
 initCollapsibleSections();
 
-// ─── Map toggle (mobile) ──────────────────────────────────────────────────
-const mapToggle = document.getElementById('map-toggle');
+// ─── Map close button (mobile) ───────────────────────────────────────────
+const mapClose = document.getElementById('map-close');
 const mapSidebarEl = document.getElementById('map-sidebar');
-if (mapToggle && mapSidebarEl) {
-  mapToggle.addEventListener('click', () => {
-    const isVisible = mapSidebarEl.classList.toggle('is-expanded');
-    const textEl = mapToggle.querySelector('.map-toggle-text');
-    if (textEl) textEl.textContent = isVisible ? 'Hide Map' : 'Show Map';
+if (mapClose && mapSidebarEl) {
+  mapClose.addEventListener('click', () => {
+    mapSidebarEl.classList.remove('is-expanded');
   });
 }
 
