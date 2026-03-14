@@ -115,6 +115,45 @@ requestAnimationFrame(() => {
 
   // Track section visibility for nav links
   initActiveNavTracking((sectionId) => setActiveSection(sectionId));
+
+  // On mobile, hide map sidebar + toggle when not viewing map-relevant sections
+  if (window.innerWidth < 1024) {
+    const mapSections = new Set(['itinerary-section', 'restaurants-section']);
+    const visibleMapSections = new Set<string>();
+    const sidebar = document.getElementById('map-sidebar');
+    const toggle = document.getElementById('map-toggle');
+
+    const mapVisibilityObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const id = entry.target.id;
+          if (entry.isIntersecting) {
+            visibleMapSections.add(id);
+          } else {
+            visibleMapSections.delete(id);
+          }
+        });
+
+        const shouldShow = visibleMapSections.size > 0;
+        if (sidebar) sidebar.style.display = shouldShow ? '' : 'none';
+        if (toggle) toggle.style.display = shouldShow ? '' : 'none';
+
+        // Collapse sidebar when hiding
+        if (!shouldShow && sidebar) {
+          sidebar.classList.remove('is-expanded');
+          const textEl = toggle?.querySelector('.map-toggle-text');
+          if (textEl) textEl.textContent = 'Show Map';
+        }
+      },
+      { threshold: 0 }
+    );
+
+    document.querySelectorAll('.section').forEach((section) => {
+      if (mapSections.has(section.id)) {
+        mapVisibilityObserver.observe(section);
+      }
+    });
+  }
 });
 
 // ─── Nav pill → map filter sync ───────────────────────────────────────────
