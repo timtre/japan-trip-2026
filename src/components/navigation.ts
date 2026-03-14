@@ -21,6 +21,7 @@ export function renderNavigation(container: HTMLElement): void {
         ${dayPills}
       </div>
       <div class="nav__links">
+        <a href="#preparation-section" class="nav__link" data-section="preparation">Preparation</a>
         <a href="#itinerary-section" class="nav__link" data-section="itinerary">Itinerary</a>
         <a href="#restaurants-section" class="nav__link" data-section="restaurants">Restaurants</a>
         <a href="#practical-section" class="nav__link" data-section="practical">Practical</a>

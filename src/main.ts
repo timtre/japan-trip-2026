@@ -11,6 +11,9 @@ import { renderNavigation, setActiveDay, setActiveSection } from './components/n
 import { renderDayTimeline } from './components/day-timeline';
 import { renderRestaurantGuide } from './components/restaurant-guide';
 import { renderPracticalSection } from './components/practical-section';
+import { renderChecklist } from './components/checklist';
+import { checklistItems } from './data/practical-info';
+import { initCollapsibleSections } from './components/collapsible-sections';
 import { initActiveNavTracking } from './utils/scroll';
 import { initMap } from './map/map-init';
 import { createMarkers, panToLocation, searchNearby, filterMarkersByDay } from './map/map-markers';
@@ -36,7 +39,9 @@ renderRestaurantGuide(
   document.getElementById('restaurant-grid')!,
   handleLocationClick
 );
+renderChecklist(document.getElementById('preparation-content')!, checklistItems);
 renderPracticalSection(document.getElementById('practical-content')!);
+initCollapsibleSections();
 
 // ─── Map toggle (mobile) ──────────────────────────────────────────────────
 const mapToggle = document.getElementById('map-toggle');

@@ -1,12 +1,10 @@
 import {
   transportInfo,
   budgetItems,
-  checklistItems,
   insiderTips,
   veganTips,
   accommodationTips,
 } from '../data/practical-info';
-import { renderChecklist } from './checklist';
 
 interface AccordionSection {
   id: string;
@@ -97,12 +95,6 @@ export function renderPracticalSection(container: HTMLElement): void {
           </table>
         `;
       },
-    },
-    {
-      id: 'checklist',
-      title: 'Booking Checklist',
-      icon: '✅',
-      render: (el) => renderChecklist(el, checklistItems),
     },
     {
       id: 'insider-tips',

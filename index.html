@@ -20,33 +20,63 @@
     <nav id="sticky-nav" aria-label="Trip navigation"></nav>
 
     <main>
-      <section id="itinerary-section" class="section section--flush" data-nav-section="itinerary">
-        <div class="split-layout">
-          <div class="split-layout__content">
-            <div class="section__header">
-              <h2 class="section__title">Day by Day</h2>
-              <p class="section__subtitle">8 days across Kyoto & Okinawa</p>
-            </div>
-            <div id="day-timeline"></div>
+      <section id="preparation-section" class="section" data-nav-section="preparation">
+        <div class="container">
+          <div class="section__header">
+            <h2 class="section__title">Preparation</h2>
+            <p class="section__subtitle">Book these before you go</p>
+            <button class="section__collapse-toggle" aria-label="Collapse section">
+              <svg class="section__collapse-chevron" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </button>
           </div>
-          <div class="split-layout__sidebar" id="map-sidebar">
-            <div class="map-panel">
-              <div class="map-controls">
-                <input type="text" id="map-search" class="map-search__input" placeholder="Search nearby vegan spots..." aria-label="Search places" />
-                <div class="map-filters" id="map-filters"></div>
-                <button class="map-region-toggle map-region-toggle--okinawa" id="region-jump" data-region="okinawa">
-                  Jump to Okinawa <span class="map-region-toggle__arrow">→</span>
-                </button>
-              </div>
-              <div id="map" class="map-panel__map"></div>
-              <div id="place-detail-panel" class="place-detail-panel" style="display:none;"></div>
+          <div class="section__body">
+            <div class="section__body-inner">
+              <div id="preparation-content"></div>
             </div>
           </div>
         </div>
-        <button class="map-toggle" id="map-toggle" aria-label="Toggle map">
-          <span class="map-toggle__icon">🗺</span>
-          <span class="map-toggle-text">Show Map</span>
-        </button>
+      </section>
+
+      <section id="itinerary-section" class="section section--flush" data-nav-section="itinerary">
+        <div class="container">
+          <div class="section__header">
+            <h2 class="section__title">Day by Day</h2>
+            <p class="section__subtitle">8 days across Kyoto & Okinawa</p>
+            <button class="section__collapse-toggle" aria-label="Collapse section">
+              <svg class="section__collapse-chevron" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="section__body">
+          <div class="section__body-inner">
+            <div class="split-layout">
+              <div class="split-layout__content">
+                <div id="day-timeline"></div>
+              </div>
+              <div class="split-layout__sidebar" id="map-sidebar">
+                <div class="map-panel">
+                  <div class="map-controls">
+                    <input type="text" id="map-search" class="map-search__input" placeholder="Search nearby vegan spots..." aria-label="Search places" />
+                    <div class="map-filters" id="map-filters"></div>
+                    <button class="map-region-toggle map-region-toggle--okinawa" id="region-jump" data-region="okinawa">
+                      Jump to Okinawa <span class="map-region-toggle__arrow">→</span>
+                    </button>
+                  </div>
+                  <div id="map" class="map-panel__map"></div>
+                  <div id="place-detail-panel" class="place-detail-panel" style="display:none;"></div>
+                </div>
+              </div>
+            </div>
+            <button class="map-toggle" id="map-toggle" aria-label="Toggle map">
+              <span class="map-toggle__icon">🗺</span>
+              <span class="map-toggle-text">Show Map</span>
+            </button>
+          </div>
+        </div>
       </section>
 
       <section id="restaurants-section" class="section" data-nav-section="restaurants">
@@ -54,9 +84,18 @@
           <div class="section__header">
             <h2 class="section__title">Vegan Restaurant Guide</h2>
             <p class="section__subtitle">The best plant-based food in Kyoto & Okinawa</p>
+            <button class="section__collapse-toggle" aria-label="Collapse section">
+              <svg class="section__collapse-chevron" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </button>
           </div>
-          <div class="restaurant-filters" id="restaurant-filters"></div>
-          <div class="restaurant-grid" id="restaurant-grid"></div>
+          <div class="section__body">
+            <div class="section__body-inner">
+              <div class="restaurant-filters" id="restaurant-filters"></div>
+              <div class="restaurant-grid" id="restaurant-grid"></div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -65,8 +104,17 @@
           <div class="section__header">
             <h2 class="section__title">Practical Info</h2>
             <p class="section__subtitle">Everything you need to know before you go</p>
+            <button class="section__collapse-toggle" aria-label="Collapse section">
+              <svg class="section__collapse-chevron" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </button>
           </div>
-          <div id="practical-content"></div>
+          <div class="section__body">
+            <div class="section__body-inner">
+              <div id="practical-content"></div>
+            </div>
+          </div>
         </div>
       </section>
     </main>
