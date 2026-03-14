@@ -157,7 +157,7 @@
     width: 100%;
     height: 50dvh;
     z-index: var(--z-overlay);
-    transform: translateY(calc(100% - 48px));
+    transform: translateY(100%);
     transition: transform var(--transition);
     background: var(--color-surface);
     border-top-left-radius: var(--radius-lg);
@@ -167,16 +167,6 @@
 
   .split-layout__sidebar.is-expanded {
     transform: translateY(0);
-  }
-
-  .split-layout__sidebar::before {
-    content: '';
-    display: block;
-    width: 40px;
-    height: 4px;
-    background: var(--color-border);
-    border-radius: var(--radius-full);
-    margin: var(--space-sm) auto var(--space-xs);
   }
 }
 

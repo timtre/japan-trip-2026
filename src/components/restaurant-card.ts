@@ -54,11 +54,7 @@ export function renderRestaurantCard(
   `;
 
   card.addEventListener('click', () => {
-    if (restaurant.url) {
-      window.open(restaurant.url, '_blank', 'noopener');
-    } else {
-      onCardClick(restaurant.locationId);
-    }
+    onCardClick(restaurant.locationId);
   });
 
   return card;

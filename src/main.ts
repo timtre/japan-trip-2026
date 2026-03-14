@@ -30,6 +30,8 @@ function handleLocationClick(locationId: string): void {
   const mapSidebar = document.getElementById('map-sidebar');
   if (mapSidebar && window.innerWidth < 1024) {
     mapSidebar.classList.add('is-expanded');
+    const textEl = document.querySelector('#map-toggle .map-toggle-text');
+    if (textEl) textEl.textContent = 'Hide Map';
   }
 }
 
