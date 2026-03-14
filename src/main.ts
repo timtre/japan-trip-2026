@@ -9,7 +9,7 @@ if (import.meta.env.DEV) {
 import { renderHero } from './components/hero';
 import { renderNavigation, setActiveDay, setActiveSection } from './components/navigation';
 import { renderDayTimeline } from './components/day-timeline';
-import { renderRestaurantGuide } from './components/restaurant-guide';
+import { renderRestaurantGuide, enableRestaurantPhotos } from './components/restaurant-guide';
 import { renderPracticalSection } from './components/practical-section';
 import { renderChecklist } from './components/checklist';
 import { checklistItems } from './data/practical-info';
@@ -68,10 +68,12 @@ if (mapSearch) {
 }
 
 // ─── Google Maps ──────────────────────────────────────────────────────────
+const restaurantGrid = document.getElementById('restaurant-grid')!;
 initMap('map').then((map) => {
   if (map) {
     createMarkers();
     initMapFilters();
+    enableRestaurantPhotos(restaurantGrid);
   }
 });
 

@@ -1,5 +1,7 @@
 import { restaurants } from '../data/restaurants';
+import { locations } from '../data/locations';
 import { renderRestaurantCard } from './restaurant-card';
+import { fetchPlacePhotoUrl } from '../map/map-markers';
 
 const categories = [
   { key: 'all', label: 'All' },
@@ -7,9 +9,36 @@ const categories = [
   { key: 'modern-vegan', label: 'Modern Vegan' },
   { key: 'ramen', label: 'Ramen' },
   { key: 'sushi', label: 'Sushi' },
-  { key: 'cafe', label: 'Cafés' },
+  { key: 'cafe', label: 'Caf\u00e9s' },
   { key: 'okinawa', label: 'Okinawa' },
 ];
+
+const locationMap = new Map(locations.map((l) => [l.id, l]));
+let photosEnabled = false;
+
+function loadPhotosForCards(container: HTMLElement) {
+  if (!photosEnabled) return;
+  container.querySelectorAll<HTMLElement>('.restaurant-card__photo[data-photo-for]').forEach((photoEl) => {
+    const locationId = photoEl.dataset.photoFor!;
+    const loc = locationMap.get(locationId);
+    if (!loc) return;
+
+    fetchPlacePhotoUrl(loc.name, { lat: loc.lat, lng: loc.lng }).then((url) => {
+      if (url) {
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = loc.name;
+        img.loading = 'lazy';
+        img.onload = () => {
+          photoEl.innerHTML = '';
+          photoEl.appendChild(img);
+        };
+      } else {
+        photoEl.remove();
+      }
+    });
+  });
+}
 
 export function renderRestaurantGuide(
   filtersContainer: HTMLElement,
@@ -36,7 +65,7 @@ export function renderRestaurantGuide(
     if (filtered.length === 0) {
       gridContainer.innerHTML = `
         <div class="restaurant-empty">
-          <div class="restaurant-empty__icon">🍃</div>
+          <div class="restaurant-empty__icon">\uD83C\uDF43</div>
           <p class="restaurant-empty__text">No restaurants in this category yet.</p>
         </div>
       `;
@@ -46,6 +75,8 @@ export function renderRestaurantGuide(
     filtered.forEach((restaurant) => {
       gridContainer.appendChild(renderRestaurantCard(restaurant, onCardClick));
     });
+
+    loadPhotosForCards(gridContainer);
 
     // Trigger scroll reveal for new cards
     requestAnimationFrame(() => {
@@ -77,4 +108,9 @@ export function renderRestaurantGuide(
       renderCards((tab as HTMLElement).dataset.category || 'all');
     });
   });
+}
+
+export function enableRestaurantPhotos(gridContainer: HTMLElement): void {
+  photosEnabled = true;
+  loadPhotosForCards(gridContainer);
 }

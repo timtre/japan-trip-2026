@@ -13,7 +13,6 @@ export interface Restaurant {
   priceRange: string;
   tags: string[];
   url?: string;
-  photo?: string;
 }
 
 export const restaurants: Restaurant[] = [
@@ -34,7 +33,7 @@ export const restaurants: Restaurant[] = [
     priceRange: '\u00A5\u00A5\u00A5',
     tags: ['shojin-ryori', 'zen-garden', 'lunch-only', 'temple'],
     url: 'https://maps.app.goo.gl/tenryuji-shigetsu-kyoto',
-    photo: 'https://images.unsplash.com/photo-1580442151529-343f2f6e0e27?w=600&h=400&fit=crop',
+
   },
   {
     id: 'izusen',
@@ -51,7 +50,6 @@ export const restaurants: Restaurant[] = [
     priceRange: '\u00A5\u00A5\u00A5',
     tags: ['shojin-ryori', 'historic', 'temple', 'traditional'],
     url: 'https://maps.app.goo.gl/izusen-daitokuji-kyoto',
-    photo: 'https://images.unsplash.com/photo-1540648639573-8c848de23f0a?w=600&h=400&fit=crop',
   },
   {
     id: 'shojin-cafe-waka',
@@ -68,7 +66,6 @@ export const restaurants: Restaurant[] = [
     priceRange: '\u00A5',
     tags: ['shojin-ryori', 'home-cooking', 'budget-friendly', 'lunch-only'],
     url: 'https://maps.app.goo.gl/shojin-cafe-waka-kyoto',
-    photo: 'https://images.unsplash.com/photo-1547592180-85f173990554?w=600&h=400&fit=crop',
   },
 
   // ─── Kyoto Modern Vegan ───────────────────────────────────────────────
@@ -87,7 +84,6 @@ export const restaurants: Restaurant[] = [
     priceRange: '\u00A5\u00A5',
     tags: ['vegan', 'dumplings', 'gion', 'dessert'],
     url: 'https://maps.app.goo.gl/zirael-vegan-kyoto',
-    photo: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?w=600&h=400&fit=crop',
   },
   {
     id: 'vog-kyoto',
@@ -104,7 +100,6 @@ export const restaurants: Restaurant[] = [
     priceRange: '\u00A5\u00A5',
     tags: ['vegan', 'indian-fusion', 'curry', 'lassi'],
     url: 'https://maps.app.goo.gl/vog-kyoto',
-    photo: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=600&h=400&fit=crop',
   },
   {
     id: 'veg-out',
@@ -121,7 +116,6 @@ export const restaurants: Restaurant[] = [
     priceRange: '\u00A5\u00A5',
     tags: ['vegan', 'buddha-bowl', 'kamo-river', 'breakfast'],
     url: 'https://maps.app.goo.gl/veg-out-kyoto',
-    photo: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&h=400&fit=crop',
   },
   {
     id: 'mercy-vegan-factory',
@@ -138,7 +132,6 @@ export const restaurants: Restaurant[] = [
     priceRange: '\u00A5\u00A5',
     tags: ['vegan', 'gimbap', 'kyoto-station', 'matcha'],
     url: 'https://maps.app.goo.gl/mercy-vegan-factory-kyoto',
-    photo: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&h=400&fit=crop',
   },
   {
     id: 'hachidori-table',
@@ -155,7 +148,6 @@ export const restaurants: Restaurant[] = [
     priceRange: '\u00A5\u00A5',
     tags: ['vegan', 'soy-meat', 'curry-udon', 'lunch-only'],
     url: 'https://maps.app.goo.gl/hachidori-table-kyoto',
-    photo: 'https://images.unsplash.com/photo-1569058242253-92a9c755a0ec?w=600&h=400&fit=crop',
   },
 
   // ─── Kyoto Ramen ──────────────────────────────────────────────────────
@@ -175,7 +167,6 @@ export const restaurants: Restaurant[] = [
     priceRange: '\u00A5\u00A5\u00A5\u00A5',
     tags: ['michelin', 'vegan', 'ramen', 'fine-dining', 'teamlab'],
     url: 'https://www.tablecheck.com/en/shops/uzu-kyoto/reserve',
-    photo: 'https://images.unsplash.com/photo-1557872943-16a5ac26437e?w=600&h=400&fit=crop',
   },
   {
     id: 'uno-ramen',
@@ -192,7 +183,6 @@ export const restaurants: Restaurant[] = [
     priceRange: '\u00A5\u00A5',
     tags: ['vegan', 'gluten-free', 'ramen', 'gyoza', 'kyoto-station'],
     url: 'https://maps.app.goo.gl/uno-ramen-kyoto',
-    photo: 'https://images.unsplash.com/photo-1623341214825-9f4f963727da?w=600&h=400&fit=crop',
   },
 
   // ─── Kyoto Sushi ──────────────────────────────────────────────────────
@@ -211,7 +201,6 @@ export const restaurants: Restaurant[] = [
     priceRange: '\u00A5\u00A5\u00A5',
     tags: ['vegan', 'sushi', 'temaki', 'creative', 'romantic'],
     url: 'https://www.awomb.com/',
-    photo: 'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=600&h=400&fit=crop',
   },
   {
     id: 'little-heaven',
@@ -228,7 +217,6 @@ export const restaurants: Restaurant[] = [
     priceRange: '\u00A5\u00A5\u00A5\u00A5',
     tags: ['vegan', 'sushi', 'fine-dining', 'arashiyama'],
     url: 'https://www.instagram.com/little_heaven_kyoto/',
-    photo: 'https://images.unsplash.com/photo-1553621042-f6e147245754?w=600&h=400&fit=crop',
   },
   {
     id: 'towzen',
@@ -246,7 +234,6 @@ export const restaurants: Restaurant[] = [
     priceRange: '\u00A5\u00A5\u00A5',
     tags: ['vegan', 'sushi', 'eggplant-eel', 'garden', 'hidden-gem'],
     url: 'https://www.instagram.com/towzen_kyoto/',
-    photo: 'https://images.unsplash.com/photo-1611143669185-af224c5e3252?w=600&h=400&fit=crop',
   },
 
   // ─── Kyoto Cafes ──────────────────────────────────────────────────────
@@ -265,7 +252,6 @@ export const restaurants: Restaurant[] = [
     priceRange: '\u00A5',
     tags: ['cafe', 'dango', 'matcha', 'arashiyama'],
     url: 'https://maps.app.goo.gl/excafe-arashiyama',
-    photo: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=600&h=400&fit=crop',
   },
   {
     id: 'story-coffee',
@@ -282,7 +268,6 @@ export const restaurants: Restaurant[] = [
     priceRange: '\u00A5',
     tags: ['cafe', 'espresso', 'oat-milk', 'specialty-coffee'],
     url: 'https://maps.app.goo.gl/story-coffee-kyoto',
-    photo: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&h=400&fit=crop',
   },
   {
     id: 'cleha-coffee',
@@ -299,7 +284,6 @@ export const restaurants: Restaurant[] = [
     priceRange: '\u00A5',
     tags: ['cafe', 'machiya', 'hidden-gem', 'tea'],
     url: 'https://maps.app.goo.gl/cleha-coffee-kyoto',
-    photo: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=600&h=400&fit=crop',
   },
   {
     id: 'wife-and-husband',
@@ -316,7 +300,6 @@ export const restaurants: Restaurant[] = [
     priceRange: '\u00A5\u00A5',
     tags: ['cafe', 'picnic', 'river', 'legendary', 'reservation'],
     url: 'https://maps.app.goo.gl/wife-and-husband-kyoto',
-    photo: 'https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=600&h=400&fit=crop',
   },
 
   // ─── Okinawa ──────────────────────────────────────────────────────────
@@ -335,7 +318,6 @@ export const restaurants: Restaurant[] = [
     priceRange: '\u00A5\u00A5',
     tags: ['vegan', 'izakaya', 'okinawan', 'umi-budo', 'tempura'],
     url: 'https://maps.app.goo.gl/tamatebako-naha',
-    photo: 'https://images.unsplash.com/photo-1590846406792-0adc7f938f1d?w=600&h=400&fit=crop',
   },
   {
     id: 'lala-zorba',
@@ -352,7 +334,6 @@ export const restaurants: Restaurant[] = [
     priceRange: '\u00A5\u00A5',
     tags: ['vegan', 'nepali', 'okinawa-soba', 'taco-rice'],
     url: 'https://maps.app.goo.gl/lala-zorba-naha',
-    photo: 'https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=600&h=400&fit=crop',
   },
   {
     id: 'natural-food-mana',
@@ -369,7 +350,6 @@ export const restaurants: Restaurant[] = [
     priceRange: '\u00A5\u00A5',
     tags: ['vegan', 'set-lunch', 'cash-only', 'tsuboya'],
     url: 'https://maps.app.goo.gl/natural-food-mana-naha',
-    photo: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&h=400&fit=crop',
   },
   {
     id: 'buuluu-buuluu',
@@ -386,7 +366,6 @@ export const restaurants: Restaurant[] = [
     priceRange: '\u00A5',
     tags: ['vegan', 'cafe', 'breakfast', 'cash-only', 'avocado'],
     url: 'https://maps.app.goo.gl/buuluu-buuluu-naha',
-    photo: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=600&h=400&fit=crop',
   },
   {
     id: 'gajimaru',
@@ -403,6 +382,5 @@ export const restaurants: Restaurant[] = [
     priceRange: '\u00A5\u00A5',
     tags: ['vegan', 'ramen', 'gyoza', 'gelato', 'onna'],
     url: 'https://maps.app.goo.gl/gajimaru-onna',
-    photo: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=600&h=400&fit=crop',
   },
 ];

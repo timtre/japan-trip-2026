@@ -19,7 +19,9 @@ export function renderRestaurantCard(
   card.dataset.locationId = restaurant.locationId;
 
   card.innerHTML = `
-    ${restaurant.photo ? `<div class="restaurant-card__photo"><img src="${restaurant.photo}" alt="${restaurant.name}" loading="lazy" /></div>` : ''}
+    <div class="restaurant-card__photo" data-photo-for="${restaurant.locationId}">
+      <div class="restaurant-card__photo-placeholder"></div>
+    </div>
     <div class="restaurant-card__content">
       <div class="restaurant-card__header">
         <div>

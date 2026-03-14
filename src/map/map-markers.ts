@@ -127,6 +127,23 @@ async function fetchPlacePhoto(loc: Location): Promise<string | null> {
   return null;
 }
 
+export async function fetchPlacePhotoUrl(
+  name: string,
+  coords: { lat: number; lng: number },
+  maxWidth = 600,
+): Promise<string | null> {
+  const cacheKey = `photo:${name}`;
+  if (photoCache.has(cacheKey)) return photoCache.get(cacheKey) ?? null;
+  try {
+    const place = await searchPlace(name, coords);
+    const url = place?.photos?.[0]?.getURI({ maxWidth }) ?? null;
+    photoCache.set(cacheKey, url);
+    return url;
+  } catch {
+    return null;
+  }
+}
+
 function buildInfoWindowNode(loc: Location, photoUrl?: string | null): HTMLDivElement {
   const regionBadge = loc.region === 'kyoto'
     ? '<span class="iw-badge iw-badge--kyoto">Kyoto</span>'
