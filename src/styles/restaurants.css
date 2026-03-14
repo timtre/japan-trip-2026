@@ -84,16 +84,42 @@
   background: var(--color-surface);
   border: 1px solid var(--color-border-light);
   border-radius: var(--radius-md);
-  padding: var(--space-lg);
+  overflow: hidden;
   box-shadow: var(--shadow-sm);
   transition: all var(--transition);
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
 }
 
 .restaurant-card:hover {
   transform: translateY(-3px);
   box-shadow: var(--shadow-lg);
   border-color: var(--color-border);
+}
+
+.restaurant-card__photo {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+}
+
+.restaurant-card__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition);
+}
+
+.restaurant-card:hover .restaurant-card__photo img {
+  transform: scale(1.05);
+}
+
+.restaurant-card__content {
+  padding: var(--space-lg);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 /* --- Card Header --- */
@@ -284,15 +310,22 @@
 }
 
 /* --- Card Footer / Hours --- */
+.restaurant-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  margin-top: auto;
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--color-border-light);
+}
+
 .restaurant-card__hours {
   display: flex;
   align-items: center;
   gap: var(--space-xs);
   font-size: var(--text-xs);
   color: var(--color-text-muted);
-  margin-top: var(--space-md);
-  padding-top: var(--space-sm);
-  border-top: 1px solid var(--color-border-light);
 }
 
 .restaurant-card__hours-icon {
@@ -300,9 +333,18 @@
   line-height: 1;
 }
 
-.restaurant-card__hours--open {
-  color: var(--color-success);
+.restaurant-card__link {
+  flex-shrink: 0;
+  font-size: var(--text-xs);
   font-weight: var(--weight-medium);
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.restaurant-card__link:hover {
+  color: var(--color-primary-dark);
+  text-decoration: underline;
 }
 
 /* --- Empty State --- */
