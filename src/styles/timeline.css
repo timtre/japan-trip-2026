@@ -1,0 +1,357 @@
+/* ============================================
+   Timeline - Day Cards & Activity Items
+   ============================================ */
+
+/* --- Day Card --- */
+.day-card {
+  position: relative;
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-light);
+  border-left: 4px solid var(--color-primary);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: var(--space-xl);
+  overflow: hidden;
+  transition: box-shadow var(--transition);
+}
+
+.day-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* Kyoto days (1-4) */
+.day-card--kyoto {
+  border-left-color: var(--color-primary);
+}
+
+/* Okinawa days (5-8) */
+.day-card--okinawa {
+  border-left-color: var(--color-okinawa);
+}
+
+/* --- Day Card Header --- */
+.day-card__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-lg) var(--space-xl);
+  background: var(--color-surface-warm);
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.day-card__emoji {
+  font-size: var(--text-3xl);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.day-card__header-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.day-card__day-number {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.day-card--kyoto .day-card__day-number {
+  color: var(--color-primary);
+}
+
+.day-card--okinawa .day-card__day-number {
+  color: var(--color-okinawa);
+}
+
+.day-card__title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+  line-height: var(--leading-snug);
+}
+
+.day-card__date {
+  font-size: var(--text-sm);
+  color: var(--color-text-light);
+  margin-top: 2px;
+}
+
+/* --- Day Card Body (Timeline) --- */
+.day-card__body {
+  padding: var(--space-lg) var(--space-xl);
+}
+
+/* --- Activity Timeline --- */
+.timeline {
+  position: relative;
+  padding-left: 80px;
+}
+
+/* Vertical connecting line */
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 64px;
+  width: 2px;
+  background: var(--color-border-light);
+  border-radius: var(--radius-full);
+}
+
+/* --- Activity Item --- */
+.activity {
+  position: relative;
+  padding-bottom: var(--space-lg);
+  transition: transform var(--transition-fast);
+}
+
+.activity:last-child {
+  padding-bottom: 0;
+}
+
+/* Timeline dot */
+.activity::before {
+  content: '';
+  position: absolute;
+  left: -20px;
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: 50%;
+  z-index: 1;
+  transition: all var(--transition-fast);
+}
+
+.day-card--kyoto .activity::before {
+  border-color: var(--color-primary-muted);
+}
+
+.day-card--okinawa .activity::before {
+  border-color: var(--color-okinawa-muted);
+}
+
+.activity:hover::before {
+  transform: scale(1.3);
+}
+
+.day-card--kyoto .activity:hover::before {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.day-card--okinawa .activity:hover::before {
+  background: var(--color-okinawa);
+  border-color: var(--color-okinawa);
+}
+
+/* --- Activity Time --- */
+.activity__time {
+  position: absolute;
+  left: -80px;
+  top: 2px;
+  width: 52px;
+  text-align: right;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-light);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* --- Activity Content --- */
+.activity__content {
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast);
+  cursor: pointer;
+}
+
+.activity__content:hover {
+  background: var(--color-bg-warm);
+}
+
+.activity__name {
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-base);
+  color: var(--color-text);
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+/* Click-to-map indicator */
+.activity__map-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  background: var(--color-bg);
+  border-radius: var(--radius-xs);
+  opacity: 0;
+  transition: opacity var(--transition-fast), color var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.activity__content:hover .activity__map-link {
+  opacity: 1;
+}
+
+.activity__map-link:hover {
+  color: var(--color-primary);
+  background: var(--color-primary-subtle);
+}
+
+.activity__description {
+  font-size: var(--text-sm);
+  color: var(--color-text-light);
+  line-height: var(--leading-relaxed);
+}
+
+.activity__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin-top: var(--space-sm);
+}
+
+.activity__tag {
+  font-size: var(--text-xs);
+  padding: 2px var(--space-sm);
+  border-radius: var(--radius-full);
+  background: var(--color-bg);
+  color: var(--color-text-light);
+  border: 1px solid var(--color-border-light);
+}
+
+/* --- Alternative Activity (OR:) --- */
+.activity--alternative {
+  opacity: 0.7;
+  padding-left: var(--space-md);
+  border-left: 2px dashed var(--color-border);
+  margin-left: var(--space-md);
+  margin-top: calc(-1 * var(--space-sm));
+  padding-bottom: var(--space-lg);
+}
+
+.activity--alternative::before {
+  display: none;
+}
+
+.activity__or-label {
+  display: inline-block;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  background: var(--color-bg);
+  padding: 2px var(--space-sm);
+  border-radius: var(--radius-xs);
+  margin-bottom: var(--space-xs);
+}
+
+.activity--alternative .activity__content {
+  background: transparent;
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.activity--alternative .activity__content:hover {
+  background: var(--color-bg-warm);
+  border-color: var(--color-text-muted);
+}
+
+/* --- Tip Callout --- */
+.tip-callout {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  background: var(--color-accent-subtle);
+  border: 1px solid rgba(212, 168, 83, 0.2);
+  border-radius: var(--radius-md);
+  margin-top: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.tip-callout__icon {
+  font-size: var(--text-xl);
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.tip-callout__text {
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  line-height: var(--leading-relaxed);
+}
+
+.tip-callout__text strong {
+  font-weight: var(--weight-semibold);
+  color: var(--color-accent-dark);
+}
+
+/* --- Transport Between Activities --- */
+.activity__transport {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  padding: 2px 0;
+  margin-top: var(--space-xs);
+}
+
+.activity__transport-icon {
+  font-size: var(--text-sm);
+}
+
+/* --- Responsive --- */
+@media (max-width: 767px) {
+  .day-card__header {
+    padding: var(--space-md) var(--space-lg);
+  }
+
+  .day-card__body {
+    padding: var(--space-md) var(--space-lg);
+  }
+
+  .day-card__title {
+    font-size: var(--text-lg);
+  }
+
+  .timeline {
+    padding-left: 60px;
+  }
+
+  .timeline::before {
+    left: 44px;
+  }
+
+  .activity__time {
+    left: -60px;
+    width: 38px;
+    font-size: var(--text-xs);
+  }
+
+  .activity__content {
+    padding: var(--space-xs) var(--space-sm);
+  }
+
+  .activity--alternative {
+    margin-left: 0;
+  }
+}

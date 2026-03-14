@@ -1,0 +1,267 @@
+/* ============================================
+   Navigation - Sticky Nav & Day Pills
+   ============================================ */
+
+/* --- Main Navigation Bar --- */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-nav);
+  height: var(--nav-height);
+  background: rgba(250, 248, 245, 0.85);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  border-bottom: 1px solid transparent;
+  transform: translateY(-100%);
+  transition: transform var(--transition), border-color var(--transition);
+}
+
+.nav.is-visible {
+  transform: translateY(0);
+  border-bottom-color: var(--color-border-light);
+}
+
+.nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--space-lg);
+  gap: var(--space-lg);
+}
+
+/* --- Logo / Title --- */
+.nav__brand {
+  flex-shrink: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+.nav__brand-icon {
+  margin-right: var(--space-xs);
+}
+
+/* --- Section Links --- */
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  flex-shrink: 0;
+}
+
+.nav__link {
+  position: relative;
+  padding: var(--space-xs) var(--space-md);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-light);
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast), background var(--transition-fast);
+  white-space: nowrap;
+}
+
+.nav__link:hover {
+  color: var(--color-text);
+  background: var(--color-primary-subtle);
+}
+
+.nav__link.is-active {
+  color: var(--color-primary);
+}
+
+.nav__link.is-active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: var(--space-md);
+  right: var(--space-md);
+  height: 2px;
+  background: var(--color-primary);
+  border-radius: var(--radius-full);
+}
+
+/* --- Day Pills Container --- */
+.nav__pills {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs) 0;
+  scrollbar-width: none;
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 8px,
+    black calc(100% - 8px),
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 8px,
+    black calc(100% - 8px),
+    transparent
+  );
+}
+
+.nav__pills::-webkit-scrollbar {
+  display: none;
+}
+
+/* --- Day Pill --- */
+.day-pill {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 6px var(--space-md);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-light);
+  background: transparent;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  user-select: none;
+}
+
+.day-pill:hover {
+  border-color: var(--color-text-muted);
+  color: var(--color-text);
+  background: var(--color-surface);
+}
+
+/* Kyoto pills (Days 1-4) - teal tint */
+.day-pill--kyoto {
+  border-color: var(--color-primary-muted);
+  color: var(--color-primary-dark);
+}
+
+.day-pill--kyoto:hover {
+  background: var(--color-primary-subtle);
+  border-color: var(--color-primary);
+}
+
+.day-pill--kyoto.is-active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: white;
+  box-shadow: 0 2px 8px rgba(74, 158, 142, 0.25);
+}
+
+/* Okinawa pills (Days 5-8) - ocean blue tint */
+.day-pill--okinawa {
+  border-color: var(--color-okinawa-muted);
+  color: var(--color-okinawa-dark);
+}
+
+.day-pill--okinawa:hover {
+  background: var(--color-okinawa-subtle);
+  border-color: var(--color-okinawa);
+}
+
+.day-pill--okinawa.is-active {
+  background: var(--color-okinawa);
+  border-color: var(--color-okinawa);
+  color: white;
+  box-shadow: 0 2px 8px rgba(45, 126, 181, 0.25);
+}
+
+/* --- Pill Emoji/Icon --- */
+.day-pill__emoji {
+  font-size: var(--text-base);
+  line-height: 1;
+}
+
+.day-pill__label {
+  line-height: 1;
+}
+
+/* --- Region Divider in Pills --- */
+.nav__pills-divider {
+  flex-shrink: 0;
+  width: 1px;
+  height: 24px;
+  background: var(--color-border);
+  margin-inline: var(--space-xs);
+}
+
+/* --- Mobile Navigation --- */
+@media (max-width: 1023px) {
+  .nav {
+    height: var(--nav-height-mobile);
+  }
+
+  .nav__inner {
+    padding-inline: var(--space-md);
+    gap: var(--space-sm);
+  }
+
+  .nav__links {
+    display: none;
+  }
+
+  .nav__brand {
+    font-size: var(--text-base);
+  }
+
+  .day-pill {
+    padding: 5px var(--space-sm);
+    font-size: var(--text-xs);
+  }
+}
+
+/* --- Mobile Bottom Section Nav --- */
+.nav-sections-mobile {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-nav);
+  display: none;
+  background: rgba(250, 248, 245, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid var(--color-border-light);
+  padding: var(--space-sm) var(--space-md);
+  padding-bottom: max(var(--space-sm), env(safe-area-inset-bottom));
+}
+
+@media (max-width: 1023px) {
+  .nav-sections-mobile {
+    display: flex;
+    justify-content: space-around;
+  }
+}
+
+.nav-sections-mobile__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: var(--space-xs);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  transition: color var(--transition-fast);
+}
+
+.nav-sections-mobile__item.is-active {
+  color: var(--color-primary);
+}
+
+.nav-sections-mobile__icon {
+  font-size: var(--text-lg);
+  line-height: 1;
+}

@@ -1,0 +1,455 @@
+/* ============================================
+   Practical Info - Accordions, Tables,
+   Checklist & Transport Cards
+   ============================================ */
+
+/* --- Accordion --- */
+.accordion {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.accordion__item {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: box-shadow var(--transition);
+}
+
+.accordion__item:has(.accordion__trigger[aria-expanded="true"]) {
+  box-shadow: var(--shadow-sm);
+  border-color: var(--color-border);
+}
+
+.accordion__trigger {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: var(--space-lg);
+  text-align: left;
+  cursor: pointer;
+  gap: var(--space-md);
+  transition: background var(--transition-fast);
+}
+
+.accordion__trigger:hover {
+  background: var(--color-bg-warm);
+}
+
+.accordion__trigger-icon {
+  font-size: var(--text-xl);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.accordion__trigger-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.accordion__trigger-title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+}
+
+.accordion__trigger-subtitle {
+  font-size: var(--text-sm);
+  color: var(--color-text-light);
+  margin-top: 2px;
+}
+
+.accordion__chevron {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  color: var(--color-text-muted);
+  transition: transform var(--transition);
+}
+
+.accordion__trigger[aria-expanded="true"] .accordion__chevron {
+  transform: rotate(180deg);
+}
+
+.accordion__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--transition);
+}
+
+.accordion__trigger[aria-expanded="true"] + .accordion__panel {
+  grid-template-rows: 1fr;
+}
+
+.accordion__panel-inner {
+  overflow: hidden;
+}
+
+.accordion__content {
+  padding: 0 var(--space-lg) var(--space-lg);
+}
+
+/* --- Budget Table --- */
+.budget-table {
+  width: 100%;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--color-border-light);
+}
+
+.budget-table thead {
+  background: var(--color-bg-warm);
+}
+
+.budget-table th {
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+  text-align: left;
+  border-bottom: 2px solid var(--color-border-light);
+}
+
+.budget-table td {
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--text-sm);
+  color: var(--color-text-light);
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.budget-table tbody tr:nth-child(even) {
+  background: var(--color-surface-warm);
+}
+
+.budget-table tbody tr:hover {
+  background: var(--color-primary-subtle);
+}
+
+.budget-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.budget-table__category {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.budget-table__emoji {
+  font-size: var(--text-base);
+}
+
+.budget-table__amount {
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.budget-table tfoot {
+  background: var(--color-bg-warm);
+}
+
+.budget-table tfoot td {
+  font-weight: var(--weight-bold);
+  color: var(--color-text);
+  border-bottom: none;
+  border-top: 2px solid var(--color-border);
+}
+
+/* Responsive table */
+@media (max-width: 600px) {
+  .budget-table th,
+  .budget-table td {
+    padding: var(--space-xs) var(--space-sm);
+    font-size: var(--text-xs);
+  }
+}
+
+/* --- Checklist --- */
+.checklist {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.checklist__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast);
+  cursor: pointer;
+  user-select: none;
+}
+
+.checklist__item:hover {
+  background: var(--color-bg-warm);
+}
+
+/* Custom checkbox - circle with checkmark */
+.checklist__checkbox {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.checklist__checkbox input {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.checklist__checkbox-visual {
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--color-border);
+  border-radius: 50%;
+  background: var(--color-surface);
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checklist__checkbox-visual::after {
+  content: '';
+  width: 8px;
+  height: 5px;
+  border-left: 2px solid white;
+  border-bottom: 2px solid white;
+  transform: rotate(-45deg) scale(0);
+  transition: transform var(--transition-bounce);
+  margin-top: -2px;
+}
+
+.checklist__checkbox input:checked ~ .checklist__checkbox-visual {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.checklist__checkbox input:checked ~ .checklist__checkbox-visual::after {
+  transform: rotate(-45deg) scale(1);
+}
+
+.checklist__checkbox input:focus-visible ~ .checklist__checkbox-visual {
+  box-shadow: 0 0 0 3px var(--color-primary-subtle);
+}
+
+/* Checked text style */
+.checklist__label {
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  transition: color var(--transition-fast);
+}
+
+.checklist__item:has(input:checked) .checklist__label {
+  color: var(--color-text-muted);
+  text-decoration: line-through;
+  text-decoration-color: var(--color-border);
+}
+
+/* --- Progress Bar --- */
+.progress {
+  margin-bottom: var(--space-lg);
+}
+
+.progress__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-sm);
+}
+
+.progress__label {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-text);
+}
+
+.progress__value {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.progress__bar {
+  width: 100%;
+  height: 8px;
+  background: var(--color-border-light);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.progress__fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-primary-light));
+  border-radius: var(--radius-full);
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.progress__fill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 100%
+  );
+  animation: progress-shine 2s ease-in-out infinite;
+}
+
+@keyframes progress-shine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+/* --- Transport Info Cards --- */
+.transport-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: var(--space-md);
+}
+
+.transport-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  transition: box-shadow var(--transition);
+}
+
+.transport-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.transport-card__icon {
+  font-size: var(--text-3xl);
+  margin-bottom: var(--space-sm);
+}
+
+.transport-card__title {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+  margin-bottom: var(--space-xs);
+}
+
+.transport-card__description {
+  font-size: var(--text-sm);
+  color: var(--color-text-light);
+  line-height: var(--leading-relaxed);
+  margin-bottom: var(--space-md);
+}
+
+.transport-card__detail {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: var(--text-sm);
+  color: var(--color-text-light);
+  padding: var(--space-xs) 0;
+}
+
+.transport-card__detail + .transport-card__detail {
+  border-top: 1px solid var(--color-border-light);
+}
+
+.transport-card__detail-label {
+  font-weight: var(--weight-medium);
+  color: var(--color-text);
+  min-width: 60px;
+}
+
+/* --- Tips List --- */
+.tips-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.tips-list__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  background: var(--color-surface-warm);
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast);
+}
+
+.tips-list__item:hover {
+  background: var(--color-bg-warm);
+}
+
+/* Decorative bullet */
+.tips-list__bullet {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-base);
+  background: var(--color-primary-subtle);
+  border-radius: 50%;
+  margin-top: 2px;
+}
+
+.tips-list__text {
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  line-height: var(--leading-relaxed);
+}
+
+.tips-list__text strong {
+  font-weight: var(--weight-semibold);
+  color: var(--color-primary-dark);
+}
+
+/* --- Phrase Card (for useful Japanese phrases) --- */
+.phrase-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast);
+}
+
+.phrase-card:hover {
+  background: var(--color-bg-warm);
+}
+
+.phrase-card__japanese {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  color: var(--color-text);
+}
+
+.phrase-card__romaji {
+  font-size: var(--text-sm);
+  color: var(--color-text-light);
+  font-style: italic;
+}
+
+.phrase-card__english {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  text-align: right;
+}

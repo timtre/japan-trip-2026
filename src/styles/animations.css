@@ -1,0 +1,326 @@
+/* ============================================
+   Animations - Scroll Reveal, Transitions
+   & Decorative Motion
+   ============================================ */
+
+/* --- Scroll Reveal Base --- */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --- Utility Animation Classes --- */
+
+/* Fade in (opacity only) */
+.fade-in {
+  opacity: 0;
+  transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.fade-in.is-visible {
+  opacity: 1;
+}
+
+/* Slide up (from below) */
+.slide-up {
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.slide-up.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Scale in (from slightly smaller) */
+.scale-in {
+  opacity: 0;
+  transform: scale(0.92);
+  transition:
+    opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.scale-in.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Slide in from left */
+.slide-left {
+  opacity: 0;
+  transform: translateX(-24px);
+  transition:
+    opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.slide-left.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Slide in from right */
+.slide-right {
+  opacity: 0;
+  transform: translateX(24px);
+  transition:
+    opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.slide-right.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* --- Day Card Stagger Animation --- */
+.day-card {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.day-card.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger delays for sequential cards */
+.day-card:nth-child(1) { transition-delay: 0ms; }
+.day-card:nth-child(2) { transition-delay: 80ms; }
+.day-card:nth-child(3) { transition-delay: 160ms; }
+.day-card:nth-child(4) { transition-delay: 240ms; }
+.day-card:nth-child(5) { transition-delay: 320ms; }
+.day-card:nth-child(6) { transition-delay: 400ms; }
+.day-card:nth-child(7) { transition-delay: 480ms; }
+.day-card:nth-child(8) { transition-delay: 560ms; }
+
+/* --- Restaurant Card Stagger --- */
+.restaurant-card {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow var(--transition);
+}
+
+.restaurant-card.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.restaurant-card:nth-child(odd).is-visible { transition-delay: 0ms; }
+.restaurant-card:nth-child(even).is-visible { transition-delay: 100ms; }
+
+/* --- Accordion Smooth Transitions --- */
+/* (panel grid-rows transition is in practical.css) */
+
+.accordion__item {
+  transition:
+    box-shadow var(--transition),
+    border-color var(--transition);
+}
+
+/* --- Filter Tab Transitions --- */
+.filter-tab {
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.filter-tab:active {
+  transform: scale(0.96);
+}
+
+/* --- Hero Parallax-like Effect (CSS only) --- */
+.hero__content {
+  animation: hero-float 6s ease-in-out infinite;
+}
+
+@keyframes hero-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* Hero elements entrance */
+.hero__pretitle {
+  opacity: 0;
+  transform: translateY(16px);
+  animation: hero-entrance 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards;
+}
+
+.hero__title {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: hero-entrance 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.4s forwards;
+}
+
+.hero__subtitle {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: hero-entrance 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.6s forwards;
+}
+
+.hero__dates {
+  opacity: 0;
+  transform: translateY(16px);
+  animation: hero-entrance 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.8s forwards;
+}
+
+.hero__countdown {
+  opacity: 0;
+  transform: translateY(16px);
+  animation: hero-entrance 0.8s cubic-bezier(0.22, 1, 0.36, 1) 1.0s forwards;
+}
+
+.hero__cta {
+  opacity: 0;
+  transform: translateY(16px);
+  animation: hero-entrance 0.8s cubic-bezier(0.22, 1, 0.36, 1) 1.2s forwards;
+}
+
+@keyframes hero-entrance {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Loading Shimmer --- */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shimmer {
+  background: linear-gradient(
+    110deg,
+    var(--color-border-light) 8%,
+    var(--color-bg) 18%,
+    var(--color-border-light) 33%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: var(--radius-sm);
+}
+
+.shimmer--text {
+  height: 14px;
+  margin-bottom: var(--space-sm);
+}
+
+.shimmer--text:last-child {
+  width: 60%;
+}
+
+.shimmer--circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.shimmer--card {
+  height: 200px;
+  border-radius: var(--radius-md);
+}
+
+/* --- Counting Animation (for countdown) --- */
+@keyframes count-pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.countdown__number--tick {
+  animation: count-pop 0.3s ease-out;
+}
+
+/* --- Pulse Animation (for live indicators) --- */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* --- Gentle Bounce (for scroll indicator) --- */
+@keyframes gentle-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+.bounce {
+  animation: gentle-bounce 1.5s ease-in-out infinite;
+}
+
+/* --- Spin (for loading) --- */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+/* --- Custom Animation Delay Utilities --- */
+.delay-100 { transition-delay: 100ms; animation-delay: 100ms; }
+.delay-200 { transition-delay: 200ms; animation-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; animation-delay: 300ms; }
+.delay-400 { transition-delay: 400ms; animation-delay: 400ms; }
+.delay-500 { transition-delay: 500ms; animation-delay: 500ms; }
+
+/* --- Respect Reduced Motion --- */
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .fade-in,
+  .slide-up,
+  .scale-in,
+  .slide-left,
+  .slide-right,
+  .day-card,
+  .restaurant-card {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .hero__content {
+    animation: none;
+  }
+
+  .hero__pretitle,
+  .hero__title,
+  .hero__subtitle,
+  .hero__dates,
+  .hero__countdown,
+  .hero__cta {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .hero__blossom {
+    animation: none;
+  }
+}

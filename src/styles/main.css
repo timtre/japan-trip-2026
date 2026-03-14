@@ -1,0 +1,275 @@
+/* ============================================
+   Japan Trip 2026 - Main Stylesheet
+   Warm washi paper aesthetic with clean
+   typography and subtle animations
+   ============================================ */
+
+/* 1. Design tokens & custom properties */
+@import './variables.css';
+
+/* 2. CSS reset & base normalization */
+@import './reset.css';
+
+/* 3. Layout system & utilities */
+@import './layout.css';
+
+/* 4. Animations & transitions */
+@import './animations.css';
+
+/* 5. Component styles */
+@import './hero.css';
+@import './navigation.css';
+@import './timeline.css';
+@import './map.css';
+@import './restaurants.css';
+@import './practical.css';
+
+/* ─── Additional inline styles ─────────────────────────────── */
+
+/* Section headers */
+.section__header {
+  margin-bottom: var(--space-2xl);
+  text-align: center;
+}
+
+.section__title {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-bold);
+  color: var(--color-text);
+  margin-bottom: var(--space-sm);
+}
+
+.section__subtitle {
+  font-size: var(--text-lg);
+  color: var(--color-text-light);
+  max-width: 600px;
+  margin-inline: auto;
+}
+
+/* Footer */
+.site-footer {
+  padding: var(--space-3xl) var(--space-lg);
+  text-align: center;
+  border-top: 1px solid var(--color-border-light);
+  background: var(--color-surface-warm);
+}
+
+.footer-text {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  color: var(--color-text);
+  margin-bottom: var(--space-md);
+}
+
+.footer-link {
+  display: inline-block;
+  font-size: var(--text-sm);
+  color: var(--color-primary);
+  font-weight: var(--weight-medium);
+  transition: color var(--transition-fast);
+}
+
+.footer-link:hover {
+  color: var(--color-primary-dark);
+}
+
+/* Info window (Google Maps) */
+.info-window {
+  max-width: 280px;
+  font-family: var(--font-body);
+  padding: 4px;
+}
+
+.iw-name {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.iw-name-jp {
+  font-size: 0.85rem;
+  color: #64748b;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.iw-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.iw-type, .iw-rating, .iw-day, .iw-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #f0ece7;
+  color: #4a5568;
+}
+
+.iw-rating { color: #d4a853; }
+.iw-badge--kyoto { background: rgba(74, 158, 142, 0.1); color: #3a7e71; }
+.iw-badge--okinawa { background: rgba(45, 126, 181, 0.1); color: #236594; }
+.iw-type--search { background: rgba(224, 124, 90, 0.15); color: #c85a4a; }
+
+.iw-desc {
+  font-size: 0.85rem;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+.iw-more-btn {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #4a9e8e;
+  background: rgba(74, 158, 142, 0.08);
+  border: 1px solid rgba(74, 158, 142, 0.2);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.iw-more-btn:hover {
+  background: rgba(74, 158, 142, 0.15);
+}
+
+/* Place detail panel */
+.place-detail-panel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-height: 60%;
+  overflow-y: auto;
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+  padding: var(--space-lg);
+  z-index: var(--z-above);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.place-detail-close {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+  font-size: var(--text-2xl);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  background: none;
+  border: none;
+  line-height: 1;
+}
+
+.place-photo {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-md);
+}
+
+.place-name {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  margin-bottom: var(--space-sm);
+}
+
+.place-rating { color: var(--color-accent); margin-bottom: var(--space-sm); }
+.place-address, .place-phone { font-size: var(--text-sm); color: var(--color-text-light); margin-bottom: var(--space-xs); }
+.place-hours { font-size: var(--text-sm); color: var(--color-text-light); margin: var(--space-md) 0; }
+
+.place-review {
+  background: var(--color-bg-warm);
+  padding: var(--space-md);
+  border-radius: var(--radius-sm);
+  margin: var(--space-md) 0;
+}
+
+.place-review-text { font-size: var(--text-sm); font-style: italic; color: var(--color-text-light); }
+.place-review-author { font-size: var(--text-xs); color: var(--color-text-muted); display: block; margin-top: var(--space-xs); }
+
+.place-links {
+  display: flex;
+  gap: var(--space-md);
+}
+
+.place-link {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-primary);
+}
+
+.place-link:hover { color: var(--color-primary-dark); }
+
+.place-loading, .place-error {
+  text-align: center;
+  padding: var(--space-xl);
+  color: var(--color-text-muted);
+}
+
+/* Map placeholder (no API key) */
+.map-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 400px;
+  background: var(--color-bg-warm);
+  border-radius: var(--radius-md);
+  padding: var(--space-xl);
+  text-align: center;
+}
+
+.map-placeholder-icon { font-size: 3rem; margin-bottom: var(--space-md); }
+.map-placeholder-text { font-size: var(--text-lg); color: var(--color-text); margin-bottom: var(--space-sm); }
+.map-placeholder-hint { font-size: var(--text-sm); color: var(--color-text-muted); }
+.map-placeholder-hint code { background: var(--color-bg); padding: 2px 6px; border-radius: 4px; font-size: var(--text-xs); }
+
+/* Activity highlight from map click */
+.activity--highlighted {
+  background: var(--color-primary-subtle);
+  border-radius: var(--radius-sm);
+  animation: highlight-pulse 2s ease-out;
+}
+
+@keyframes highlight-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(74, 158, 142, 0.3); }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+/* Budget category row */
+.budget-category-row td {
+  background: var(--color-bg-warm) !important;
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+  padding-top: var(--space-md) !important;
+}
+
+/* Map search input direct styling (matches map-search__input) */
+#map-search {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  box-shadow: var(--shadow-md);
+}
+
+#map-search::placeholder { color: var(--color-text-muted); }
+#map-search:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-md), 0 0 0 3px var(--color-primary-subtle);
+}

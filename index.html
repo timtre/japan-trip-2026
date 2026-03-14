@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Japan 2026 — Kyoto & Okinawa</title>
+  <meta name="description" content="8-day Japan trip: Kyoto temples, Okinawa beaches, 100% vegan. Apr 20–27, 2026." />
+  <meta property="og:title" content="Japan 2026 — Kyoto & Okinawa" />
+  <meta property="og:description" content="8-day vegan travel guide: temples, onsen, beaches & the best plant-based food in Japan." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+JP:wght@400;600;700;900&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div id="app">
+    <section id="hero"></section>
+
+    <nav id="sticky-nav" aria-label="Trip navigation"></nav>
+
+    <main>
+      <section id="itinerary-section" class="section section--flush" data-nav-section="itinerary">
+        <div class="split-layout">
+          <div class="split-layout__content">
+            <div class="section__header">
+              <h2 class="section__title">Day by Day</h2>
+              <p class="section__subtitle">8 days across Kyoto & Okinawa</p>
+            </div>
+            <div id="day-timeline"></div>
+          </div>
+          <div class="split-layout__sidebar" id="map-sidebar">
+            <div class="map-panel">
+              <div class="map-controls">
+                <input type="text" id="map-search" class="map-search__input" placeholder="Search nearby vegan spots..." aria-label="Search places" />
+                <div class="map-filters" id="map-filters"></div>
+                <button class="map-region-toggle map-region-toggle--okinawa" id="region-jump" data-region="okinawa">
+                  Jump to Okinawa <span class="map-region-toggle__arrow">→</span>
+                </button>
+              </div>
+              <div id="map" class="map-panel__map"></div>
+              <div id="place-detail-panel" class="place-detail-panel" style="display:none;"></div>
+            </div>
+          </div>
+        </div>
+        <button class="map-toggle" id="map-toggle" aria-label="Toggle map">
+          <span class="map-toggle__icon">🗺</span>
+          <span class="map-toggle-text">Show Map</span>
+        </button>
+      </section>
+
+      <section id="restaurants-section" class="section" data-nav-section="restaurants">
+        <div class="container">
+          <div class="section__header">
+            <h2 class="section__title">Vegan Restaurant Guide</h2>
+            <p class="section__subtitle">The best plant-based food in Kyoto & Okinawa</p>
+          </div>
+          <div class="restaurant-filters" id="restaurant-filters"></div>
+          <div class="restaurant-grid" id="restaurant-grid"></div>
+        </div>
+      </section>
+
+      <section id="practical-section" class="section" data-nav-section="practical">
+        <div class="container">
+          <div class="section__header">
+            <h2 class="section__title">Practical Info</h2>
+            <p class="section__subtitle">Everything you need to know before you go</p>
+          </div>
+          <div id="practical-content"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p class="footer-text">Bon voyage!</p>
+        <a href="/Japan-Travel-Plan-2026-EN.pdf" class="footer-link" id="pdf-link" target="_blank" rel="noopener" style="display:none;">
+          View original travel plan (PDF)
+        </a>
+      </div>
+    </footer>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
