@@ -18,12 +18,16 @@ import { initActiveNavTracking } from './utils/scroll';
 import { initMap } from './map/map-init';
 import { createMarkers, panToLocation, filterMarkersByDay } from './map/map-markers';
 import { initMapFilters } from './map/map-filters';
+import { locations } from './data/locations';
 
 // ─── Render sections ──────────────────────────────────────────────────────
 renderHero(document.getElementById('hero')!);
 renderNavigation(document.getElementById('sticky-nav')!);
 
 function handleLocationClick(locationId: string): void {
+  const loc = locations.find(l => l.id === locationId);
+  if (loc) filterMarkersByDay(loc.day);
+
   panToLocation(locationId);
 
   // On mobile, ensure map sidebar is expanded
@@ -92,6 +96,7 @@ requestAnimationFrame(() => {
           const dayNum = Number((entry.target as HTMLElement).id.replace('day-', ''));
           if (dayNum) {
             setActiveDay(dayNum);
+            filterMarkersByDay(dayNum);
           }
         }
       });

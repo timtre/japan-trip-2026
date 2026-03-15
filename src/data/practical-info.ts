@@ -52,8 +52,8 @@ export const transportInfo: TransportItem[] = [
     costEur: '~\u20AC33',
   },
   {
-    route: 'Okinawa rental car',
-    details: 'Essential for North Okinawa day trip (Day 7). Book in advance.',
+    route: 'Okinawa rental car (3 days)',
+    details: 'Days 6\u20138: Shuri, North Okinawa, beaches & return to airport. Book in advance.',
     cost: '~\u00A55,000\u2013\u00A58,000/day',
     costEur: '~\u20AC28\u2013\u20AC44/day',
   },
@@ -89,9 +89,15 @@ export const budgetItems: BudgetItem[] = [
   },
   {
     category: 'Accommodation',
-    item: 'Okinawa 4 nights (per person)',
-    costJpy: '\u00A518,000\u2013\u00A530,000',
-    costEur: '\u20AC100\u2013\u20AC165',
+    item: 'Naha 2 nights (per person)',
+    costJpy: '\u00A55,000\u2013\u00A510,000',
+    costEur: '\u20AC28\u2013\u20AC55',
+  },
+  {
+    category: 'Accommodation',
+    item: 'Nago area 2 nights (per person)',
+    costJpy: '\u00A520,000\u2013\u00A536,000',
+    costEur: '\u20AC110\u2013\u20AC198',
   },
 
   // Food (daily per person)
@@ -147,9 +153,9 @@ export const budgetItems: BudgetItem[] = [
   },
   {
     category: 'Transport',
-    item: 'Rental car (1 day)',
-    costJpy: '\u00A55,000\u2013\u00A58,000',
-    costEur: '\u20AC28\u2013\u20AC44',
+    item: 'Rental car (3 days)',
+    costJpy: '\u00A515,000\u2013\u00A524,000',
+    costEur: '\u20AC83\u2013\u20AC132',
   },
 
   // Activities
@@ -170,8 +176,8 @@ export const budgetItems: BudgetItem[] = [
   {
     category: 'Total',
     item: 'Estimated total per person (8 days)',
-    costJpy: '\u00A5127,000\u2013\u00A5218,000',
-    costEur: '\u20AC700\u2013\u20AC1,200',
+    costJpy: '\u00A5140,000\u2013\u00A5240,000',
+    costEur: '\u20AC770\u2013\u20AC1,320',
   },
 ];
 
@@ -193,7 +199,7 @@ export const checklistItems: ChecklistItem[] = [
   {
     id: 'flights-naha-seoul',
     text: 'Book flight Naha \u2192 Seoul',
-    details: 'Afternoon departure on Apr 27.',
+    details: 'Afternoon departure on Apr 27 (Mon).',
     timeframe: '6\u20138 weeks before',
     url: 'https://www.skyscanner.net/transport/flights/oka/sel/',
   },
@@ -205,11 +211,18 @@ export const checklistItems: ChecklistItem[] = [
     url: 'https://www.booking.com/searchresults.html?ss=Kyoto',
   },
   {
-    id: 'accommodation-okinawa',
-    text: 'Book Okinawa accommodation',
-    details: 'Naha area for Days 5\u20136, consider north for Day 7. 4 nights (Apr 24\u201327).',
+    id: 'accommodation-naha',
+    text: 'Book Naha accommodation (2 nights)',
+    details: 'Near Kokusai-d\u014Dri/Tomari Port for Days 4\u20135 (Apr 23\u201324).',
     timeframe: '4\u20136 weeks before',
     url: 'https://www.booking.com/searchresults.html?ss=Naha%2C+Okinawa',
+  },
+  {
+    id: 'accommodation-nago',
+    text: 'Book Nago area accommodation (2 nights)',
+    details: 'Coastal Airbnb or hotel for Days 6\u20137 (Apr 25\u201326). ~1.5h to Naha Airport.',
+    timeframe: '4\u20136 weeks before',
+    url: 'https://www.booking.com/searchresults.html?ss=Nago%2C+Okinawa',
   },
   {
     id: 'reserve-shigetsu',
@@ -248,8 +261,8 @@ export const checklistItems: ChecklistItem[] = [
   },
   {
     id: 'car-rental',
-    text: 'Book rental car for Day 7',
-    details: 'Needed for North Okinawa roadtrip. International driving permit required.',
+    text: 'Book rental car (Days 6\u20138)',
+    details: '3-day rental: Naha pickup Sat, airport drop-off Mon. International driving permit required.',
     timeframe: '1\u20132 weeks before',
     url: 'https://www.tocoo.jp/en/',
   },
@@ -318,8 +331,8 @@ export const accommodationTips = {
     'Budget option: hostels near Nijo or Karasuma from ~\u00A53,500/night.',
   ],
   okinawa: [
-    'Stay in Naha for Days 5\u20136 to be close to Kokusai-dori and Tomari Port.',
-    'Consider moving to a beach resort area (Chatan/Onna) for Day 7 if doing the roadtrip.',
+    'Stay in Naha for Days 4\u20135 (2 nights) to be close to Kokusai-d\u014Dri and Tomari Port for the Zamami ferry.',
+    'Move to Nago area for Days 6\u20137 (2 nights) \u2013 coastal Airbnb or hotel, close to beaches and Yanbaru nature.',
     'Naha guesthouses offer great value from ~\u00A52,500/night.',
     'Airbnb apartments with kitchens are a good option for preparing simple meals.',
     'Many Okinawa hotels include breakfast \u2013 check if vegan options are available.',
